@@ -1,6 +1,6 @@
 import './App.css';
 import Task from "./components/Task/task";
-import { Card, Typography } from "@material-tailwind/react";
+
 
 const App = () => {
   const tasks = [
@@ -19,32 +19,31 @@ const App = () => {
   ]
 
   const getTasks = () => tasks.map(task => (
-      // console.log(task)
-        <tr>
           <Task taskName={task["name"]} taskTitle={task["title"]} taskStatus={task["status"]} taskPriority={task["priority"]}/>
-        </tr>))
+        ))
 
   return (
     <div>
-      {/*<Task taskName="Task 1" taskTitle="Task One" taskStatus="In Progress" taskPriority="Very High"/>*/}
-      {/*<Task taskName="Task 2" taskTitle="Task Two" taskStatus="Not Started" taskPriority="Low"/>*/}
-      <Card className="h-full w-full overflow-scroll">
-      <table className="w-full min-w-max table-auto text-left">
+      <div className="container mx-auto px-4 sm:px-8">
+      <div className="min-w-full shadow rounded-lg overflow-hidden">
+      <table className="min-w-full leading-normal">
         <thead>
         <tr>
-          <th>Task</th>
-          <th>Title</th>
-          <th>Status</th>
-          <th>Priority</th>
+            <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <input type="checkbox" className="form-checkbox"/>
+            </th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Task</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Title</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Priority</th>
         </tr>
         </thead>
-        <tbody>
-        {getTasks()}
-        </tbody>
+          <tbody>
+          {getTasks()}
+          </tbody>
       </table>
-      </Card>
-
-
+      </div>
+      </div>
     </div>
 );
 }
