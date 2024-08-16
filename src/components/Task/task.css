@@ -6,3 +6,18 @@
 .cross{
   text-decoration: line-through;
 }
+
+.line-through{
+  text-decoration: line-through;
+}
+
+.tag{
+  @apply text-gray-800 leading-tight;
+  font-weight: bold;
+  border-radius: 4px;
+  border: 1px solid grey;
+  box-shadow: 2px 2px;
+  padding: 5px;
+  margin: 5px;
+
+}

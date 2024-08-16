@@ -3,3 +3,19 @@
   height: 50px;
   font-size: 30px;
 }
+
+.button{
+  background-color: transparent;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid black;
+
+}
+
+.text-box {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 4px;
+}
