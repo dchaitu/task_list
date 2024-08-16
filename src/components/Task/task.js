@@ -1,6 +1,6 @@
 import './task.css'
 const Task = props => {
-  const {taskTag, taskName, taskTitle, taskStatus, taskPriority,selectTask, isIssueSelected} = props
+  const {taskTag, taskName, taskTitle, taskStatus, taskPriority,selectTask, isIssueSelected, showTitleCol, showStatusCol,showPriorityCol} = props
     const styleName = isIssueSelected ? 'line-through' : '';
 
     return (
@@ -10,9 +10,9 @@ const Task = props => {
               <input type="checkbox" className="form-checkbox" onClick={selectTask}/>
           </td>
           <TableCell>{taskName}</TableCell>
-          <TableCell> <span className="tag">{taskTag}</span> {taskTitle}</TableCell>
-          <TableCell>{taskStatus}</TableCell>
-          <TableCell>{taskPriority}</TableCell>
+          {showTitleCol&&<TableCell> <span className="tag">{taskTag}</span> {taskTitle}</TableCell>}
+          {showStatusCol&&<TableCell>{taskStatus}</TableCell>}
+          {showPriorityCol&&<TableCell>{taskPriority}</TableCell>}
       </tr>
 
 

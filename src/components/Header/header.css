@@ -2,10 +2,10 @@
 .header{
   height: 50px;
   font-size: 30px;
+  font-weight: bold;
 }
 
 .button{
-  background-color: transparent;
   padding: 5px;
   margin: 5px;
   border-radius: 8px;
@@ -19,3 +19,13 @@
   margin: 5px;
   padding: 4px;
 }
+.drop-button{
+  background-color: transparent;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid black;
+  position: relative; /* Ensures dropdowns align with buttons */
+  display: inline-flex;
+}
+
