@@ -8,6 +8,9 @@ import {FaArrowUp} from "react-icons/fa6";
 import tasks from './components/constants/constants'
 import ProfileButton from "./components/Profile/profileButton";
 import {GrNext, GrPrevious} from "react-icons/gr";
+import {DropdownDetails} from "./components/DropDownDetails/dropDownDetails";
+import {DropdownMenuCheckboxes} from "./components/DropDownCheckBox/dropDownCheckBox";
+import {IoFilterOutline} from "react-icons/io5";
 
 class App extends Component {
 
@@ -22,13 +25,21 @@ class App extends Component {
     isProfileClicked:false,
     currentPage: 1,
     recordsPerPage: 5,
+    selectedTasks: [],
+    isAllSelected: false,
   }
 
 
   getSelectedTask = (taskId) => {
-    this.setState((prevState) => ({
-      isIssueSelected: prevState.isIssueSelected === taskId ? null : taskId ,
-    }));
+    const {selectedTasks} = this.state
+    const isSelected = selectedTasks.includes(taskId)
+    const newSelectedTasks = isSelected? selectedTasks.filter(id => id !== taskId):[...selectedTasks, taskId];
+    console.log(newSelectedTasks)
+
+    this.setState({
+      selectedTasks: newSelectedTasks,
+      isAllSelected: newSelectedTasks.length === tasks.length,
+    });
   };
 
 
@@ -85,7 +96,7 @@ class App extends Component {
 
 
   getTasks = () => {
-    const {showTitleCol, showStatusCol,showPriorityCol, currentPage, recordsPerPage} = this.state
+    const {showTitleCol, showStatusCol,showPriorityCol, currentPage, recordsPerPage, isAllSelected} = this.state
     const indexOfLastTask = currentPage * recordsPerPage;
     const indexOfFirstTask = indexOfLastTask - recordsPerPage;
     const currentTasks = this.state.currentTasks.slice(indexOfFirstTask, indexOfLastTask);
@@ -96,7 +107,7 @@ class App extends Component {
     return (
         <Task taskId={task["id"]} taskName={task["name"]}
               taskTag={task["tag"]} taskTitle={task["title"]}
-              taskStatus={task["status"]}
+              taskStatus={task["status"]} selectValue={isAllSelected}
               taskPriority={task["priority"]} selectTask={() => this.getSelectedTask(task["id"])}
               showTitleCol={showTitleCol} showStatusCol={showStatusCol} showPriorityCol={showPriorityCol}
               isIssueSelected={isIssueSelected}
@@ -133,9 +144,24 @@ class App extends Component {
     }
   }
 
+  selectAllTasksInCurrentPage = () => {
+    const {isAllSelected, currentTasks} = this.state
+    if (isAllSelected) {
+    this.setState({isAllSelected: false,selectedTasks:[]})
+    }
+    else{
+      const allTaskIds = currentTasks.map(task => task.id);
+      this.setState({isAllSelected: true,
+      selectedTasks:allTaskIds})
+      console.log(allTaskIds)
+    }
+
+
+  }
+
 
   renderPagination() {
-    const { currentPage, recordsPerPage, currentTasks } = this.state;
+    const { currentPage, recordsPerPage, currentTasks, selectedTasks } = this.state;
     const totalPages = Math.ceil(currentTasks.length / recordsPerPage);
 
     const pageNumbers = [];
@@ -145,8 +171,8 @@ class App extends Component {
 
     return (
         <>
-          <div className="flex flex-row space-x-10">
-            <div>0 of {tasks.length} selected.</div>
+          <div className="flex justify-evenly">
+            <div>{selectedTasks.length} of {tasks.length} selected.</div>
             <div>Rows per page {recordsPerPage}</div>
             <div className='flex'>
               <button className="button-shadow" onClick={this.prevPage}><GrPrevious/></button>
@@ -162,7 +188,6 @@ class App extends Component {
               <button className="button-shadow" onClick={this.nextPage}><GrNext/></button>
             </div>
           </div>
-
         </>
 
     );
@@ -170,29 +195,32 @@ class App extends Component {
 
 
   render() {
-    const {showTitleCol, showStatusCol, showPriorityCol, currentTasks, isViewOpen, isProfileClicked} = this.state
+    const {showTitleCol, showStatusCol, showPriorityCol, currentTasks, isViewOpen, isProfileClicked,isAllSelected} = this.state
     return (
         <div>
-          <div className="float-center">
-            <ProfileButton onClick={this.getProfileDetails}/>
-            {isProfileClicked && <Dropdown
-                fieldOne="Profile"
-                fieldTwo="Billing"
-                fieldThree="Settings"/>
-            }
+          <div className="float-center pr-10">
+
+
+
           </div>
           <Header searchText={this.onChangeSearchInput} viewFilter={this.showDropDownMenu}>
-            {isViewOpen && <Dropdown
-                fieldOne="Title" fieldOneFunc={this.showTitleColFunc} showFieldOne={showTitleCol}
-            fieldTwo="Status" fieldTwoFunc={this.showStatusColFunc} showFieldTwo={showStatusCol}
-            fieldThree="Priority" fieldThreeFunc={this.showPriorityColFunc} showFieldThree={showPriorityCol}/>}
+            <DropdownMenuCheckboxes
+              text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
+              showItemOneStatus={showTitleCol} setItemOneStatusFunc={this.showTitleColFunc}
+              showItemTwoStatus={showStatusCol} setItemTwoStatusFunc={this.showStatusColFunc}
+              showItemThreeStatus={showPriorityCol} setItemThreeStatusFunc={this.showPriorityColFunc}
+            >
+              <IoFilterOutline className="inline-block"/>
+            </DropdownMenuCheckboxes>
+
         </Header>
         <div className="container mx-auto px-4 sm:px-8">
           <div className="min-w-full shadow rounded-lg overflow-hidden">
             <table className="min-w-full leading-normal">
               <thead>
-              <tr>
-                <TableRow><input type="checkbox" className="form-checkbox"/></TableRow>
+                <TableRow>
+                  <input type="checkbox" checked={isAllSelected} onChange={this.selectAllTasksInCurrentPage}/>
+                </TableRow>
                 <TableRow>Task</TableRow>
                 {showTitleCol&& <TableRow>
                   <button>Title <RiExpandUpDownLine className="inline-block"/></button>
@@ -201,7 +229,6 @@ class App extends Component {
                   </TableRow>}
                     {showPriorityCol&&<TableRow><button onClick={() =>this.sortTasksByField(currentTasks,"priority")}>Priority <RiExpandUpDownLine className="inline-block"/></button>
                       </TableRow>}
-              </tr>
               </thead>
               <tbody>
               {this.getTasks()}
@@ -210,6 +237,7 @@ class App extends Component {
             {this.renderPagination()}
           </div>
         </div>
+          <button onClick={this.selectAllTasksInCurrentPage}>Check All</button>
       </div>
     );
   }

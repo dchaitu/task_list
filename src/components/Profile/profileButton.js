@@ -5,6 +5,7 @@ const ProfileButton = (props) => {
         <div className="content-end float-right menu">
         <button onClick={props.onClick}>
             <FaUserCircle/>
+          {props.children}
         </button>
         </div>
     )
