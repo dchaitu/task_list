@@ -2,15 +2,19 @@ import './App.css';
 import Task from "./components/Task/task";
 import {Component} from "react";
 import Header from "./components/Header/header";
-import Dropdown from "./components/Dropdown/dropdown";
 import { RiExpandUpDownLine } from "react-icons/ri";
 import {FaArrowUp} from "react-icons/fa6";
-import tasks from './components/constants/constants'
-import ProfileButton from "./components/Profile/profileButton";
-import {GrNext, GrPrevious} from "react-icons/gr";
-import {DropdownDetails} from "./components/DropDownDetails/dropDownDetails";
+import tasks, {TableRow} from './components/constants/constants'
 import {DropdownMenuCheckboxes} from "./components/DropDownCheckBox/dropDownCheckBox";
 import {IoFilterOutline} from "react-icons/io5";
+import {Button} from "./components/ui/button";
+import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "./components/ui/dropdown-menu";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight
+} from "react-icons/md";
 
 class App extends Component {
 
@@ -28,21 +32,6 @@ class App extends Component {
     selectedTasks: [],
     isAllSelected: false,
   }
-
-
-  getSelectedTask = (taskId) => {
-    const {selectedTasks} = this.state
-    const isSelected = selectedTasks.includes(taskId)
-    const newSelectedTasks = isSelected? selectedTasks.filter(id => id !== taskId):[...selectedTasks, taskId];
-    console.log(newSelectedTasks)
-
-    this.setState({
-      selectedTasks: newSelectedTasks,
-      isAllSelected: newSelectedTasks.length === tasks.length,
-    });
-  };
-
-
 
 
   getFilteredTasks = (titleName) =>  {
@@ -69,63 +58,18 @@ class App extends Component {
 
     }
 
-
-
-  showDropDownMenu = () =>{
-    this.setState((prevState) => ({isViewOpen : !prevState.isViewOpen}))
-    console.log("isViewOpen:-", this.state.isViewOpen);
-  }
-
   showTitleColFunc = () =>{
     this.setState((prevState) => ({showTitleCol : !prevState.showTitleCol}))
-    console.log("showTitleCol:-", this.state.showTitleCol);
 
   }
 
   showStatusColFunc = () =>{
     this.setState((prevState) => ({showStatusCol : !prevState.showStatusCol}))
-    console.log("showStatusCol:-", this.state.showStatusCol);
 
   }
 
   showPriorityColFunc = () =>{
     this.setState((prevState) => ({showPriorityCol : !prevState.showPriorityCol}))
-    console.log("showPriorityCol:-", this.state.showPriorityCol);
-
-  }
-
-
-  getTasks = () => {
-    const {showTitleCol, showStatusCol,showPriorityCol, currentPage, recordsPerPage, isAllSelected} = this.state
-    const indexOfLastTask = currentPage * recordsPerPage;
-    const indexOfFirstTask = indexOfLastTask - recordsPerPage;
-    const currentTasks = this.state.currentTasks.slice(indexOfFirstTask, indexOfLastTask);
-
-  return currentTasks.map(task => {
-
-    const isIssueSelected = this.state.isIssueSelected === task["id"];
-    return (
-        <Task taskId={task["id"]} taskName={task["name"]}
-              taskTag={task["tag"]} taskTitle={task["title"]}
-              taskStatus={task["status"]} selectValue={isAllSelected}
-              taskPriority={task["priority"]} selectTask={() => this.getSelectedTask(task["id"])}
-              showTitleCol={showTitleCol} showStatusCol={showStatusCol} showPriorityCol={showPriorityCol}
-              isIssueSelected={isIssueSelected}
-        />
-    )
-  });
-  }
-  onChangeSearchInput = event => {
-    this.setState({
-      searchInput: event.target.value,
-    })
-    this.getFilteredTasks(this.state.searchInput);
-  }
-
-  getProfileDetails = () => {
-    const {isProfileClicked} = this.state;
-    this.setState({isProfileClicked:!isProfileClicked})
-
 
   }
 
@@ -144,20 +88,12 @@ class App extends Component {
     }
   }
 
-  selectAllTasksInCurrentPage = () => {
-    const {isAllSelected, currentTasks} = this.state
-    if (isAllSelected) {
-    this.setState({isAllSelected: false,selectedTasks:[]})
-    }
-    else{
-      const allTaskIds = currentTasks.map(task => task.id);
-      this.setState({isAllSelected: true,
-      selectedTasks:allTaskIds})
-      console.log(allTaskIds)
-    }
+
+  updateNoOfRows = (value) => {
+  this.setState({recordsPerPage: value}, this.getTasks); // Ensure tasks are updated after change
+}
 
 
-  }
 
 
   renderPagination() {
@@ -170,40 +106,149 @@ class App extends Component {
     }
 
     return (
-        <>
-          <div className="flex justify-evenly">
-            <div>{selectedTasks.length} of {tasks.length} selected.</div>
-            <div>Rows per page {recordsPerPage}</div>
-            <div className='flex'>
-              <button className="button-shadow" onClick={this.prevPage}><GrPrevious/></button>
-              <ul className="pagination flex">
+          <div className="flex flex-row justify-between mr-1 ml-1">
+            <div className="ml-2 p-2">{selectedTasks.length} of {tasks.length} selected.</div>
+
+            <div className="flex flex-row justify-around p-2">
+              <div className="ml-2">Rows per page
+              <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">{recordsPerPage}</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                  <DropdownMenuItem onClick={() => this.updateNoOfRows(5)} value="5">5</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => this.updateNoOfRows(10)} value="10">10</DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => this.updateNoOfRows(15)} value="15">15</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+              </div>
+              <div className="flex flex-row mr-2 ml-3">
+                <Button variant="secondary" onClick={this.nextPage}><MdKeyboardDoubleArrowLeft/></Button>
+
+              <Button variant="secondary" onClick={this.prevPage}><MdKeyboardArrowLeft/></Button>
+              <ul className="pagination flex justify-self-center">
                 {pageNumbers.map(number => (
-                    <li key={number} className={`page-item m-2 ${currentPage === number ? 'active' : ''}`}>
-                      <button onClick={() => this.paginate(number)}>
-                        {number}
-                      </button>
-                    </li>
+                  <li key={number} className={`page-item m-2 ${currentPage === number ? 'active' : ''}`}>
+                    <button onClick={() => this.paginate(number)}>
+                      {number}
+                    </button>
+                  </li>
                 ))}
               </ul>
-              <button className="button-shadow" onClick={this.nextPage}><GrNext/></button>
+              <Button variant="secondary" onClick={this.nextPage}><MdKeyboardArrowRight/></Button>
+                <Button variant="secondary" onClick={this.nextPage}><MdKeyboardDoubleArrowRight/></Button>
             </div>
+              </div>
           </div>
-        </>
-
     );
   }
 
 
+  getTasks = () => {
+    const {showTitleCol, showStatusCol,showPriorityCol, currentPage, recordsPerPage, selectedTasks} = this.state
+    const indexOfLastTask = currentPage * recordsPerPage;
+    const indexOfFirstTask = indexOfLastTask - recordsPerPage;
+    const currentTasks = this.state.currentTasks.slice(indexOfFirstTask, indexOfLastTask);
+    // const selectedTasksIds = this.state.selectedTasks.map(task => task["id"]);
+    const selectedTasksIds = new Set(selectedTasks);
+
+  return currentTasks.map(task => {
+
+    return (
+        <Task key={task["id"]}
+              taskId={task["id"]}
+              taskName={task["name"]}
+              taskTag={task["tag"]}
+              taskTitle={task["title"]}
+              taskStatus={task["status"]}
+              taskPriority={task["priority"]}
+              selectTask={() => this.getSelectedTask(task["id"])}
+              showTitleCol={showTitleCol}
+              showStatusCol={showStatusCol}
+              showPriorityCol={showPriorityCol}
+              isCheckboxSelected={selectedTasksIds.has(task['id'])}
+        />
+    )
+  });
+  }
+  onChangeSearchInput = event => {
+    this.setState({
+      searchInput: event.target.value,
+    })
+    this.getFilteredTasks(this.state.searchInput);
+  }
+
+  getSelectedTask = (taskId) => {
+    const {selectedTasks} = this.state
+    const isSelected = selectedTasks.includes(taskId)
+    const newSelectedTasks = isSelected? selectedTasks.filter(id => id !== taskId):[...selectedTasks, taskId];
+    console.log("newSelectedTasks", newSelectedTasks)
+
+    this.setState({
+      selectedTasks: newSelectedTasks,
+      isAllSelected: newSelectedTasks.length === tasks.length,
+    });
+  };
+
+
+  selectAllTasksInCurrentPage = () => {
+  const { isAllSelected, currentTasks, selectedTasks } = this.state;
+
+  const currentTaskIds = currentTasks.map(task => task.id);
+
+  if (isAllSelected) {
+    const newSelectedTasks = selectedTasks.filter(taskId => !currentTaskIds.includes(taskId));
+    this.setState({ isAllSelected: false, selectedTasks: newSelectedTasks });
+  } else {
+    const newSelectedTasks = [...new Set([...selectedTasks, ...currentTaskIds])];
+    this.setState({ isAllSelected: true, selectedTasks: newSelectedTasks });
+  }
+};
+
+
+
+updateTasksStatus = (newStatus, taskIdsToUpdate) => {
+  console.log("taskIdsToUpdate: ", taskIdsToUpdate)
+    this.setState((prevState) => {
+    const updatedTasks = prevState.currentTasks.map(task => {
+      if (taskIdsToUpdate.includes(task.id)) {
+        return { ...task, status: newStatus };
+      }
+      return task;
+    });
+
+    return { currentTasks: updatedTasks };
+  });
+};
+
+  updateTasksPriority = (newPriority, taskIdsToUpdate) => {
+  console.log("taskIdsToUpdate: ", taskIdsToUpdate)
+    this.setState((prevState) => {
+    const updatedTasks = prevState.currentTasks.map(task => {
+      if (taskIdsToUpdate.includes(task.id)) {
+        return { ...task, priority: newPriority };
+      }
+      return task;
+    });
+
+    return { currentTasks: updatedTasks };
+  });
+};
+
+
+
+
   render() {
-    const {showTitleCol, showStatusCol, showPriorityCol, currentTasks, isViewOpen, isProfileClicked,isAllSelected} = this.state
+    const {showTitleCol, showStatusCol, showPriorityCol, currentTasks, selectedTasks} = this.state
+    const currentTaskIds = currentTasks.map(task => task.id);
+    const selectedTasksIds = currentTaskIds.every(id => selectedTasks.includes(id));
+    console.log(selectedTasksIds)
     return (
         <div>
-          <div className="float-center pr-10">
-
-
-
-          </div>
-          <Header searchText={this.onChangeSearchInput} viewFilter={this.showDropDownMenu}>
+          <Header searchText={this.onChangeSearchInput}
+                  priorityFunc={() => this.updateTasksPriority("Low", selectedTasks)}
+                  statusFunc={() => this.updateTasksStatus("A", selectedTasks)}>
             <DropdownMenuCheckboxes
               text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
               showItemOneStatus={showTitleCol} setItemOneStatusFunc={this.showTitleColFunc}
@@ -219,7 +264,7 @@ class App extends Component {
             <table className="min-w-full leading-normal">
               <thead>
                 <TableRow>
-                  <input type="checkbox" checked={isAllSelected} onChange={this.selectAllTasksInCurrentPage}/>
+                  <input type="checkbox" checked={selectedTasksIds} onChange={this.selectAllTasksInCurrentPage}/>
                 </TableRow>
                 <TableRow>Task</TableRow>
                 {showTitleCol&& <TableRow>
@@ -229,6 +274,7 @@ class App extends Component {
                   </TableRow>}
                     {showPriorityCol&&<TableRow><button onClick={() =>this.sortTasksByField(currentTasks,"priority")}>Priority <RiExpandUpDownLine className="inline-block"/></button>
                       </TableRow>}
+              <TableRow/>
               </thead>
               <tbody>
               {this.getTasks()}
@@ -237,14 +283,11 @@ class App extends Component {
             {this.renderPagination()}
           </div>
         </div>
-          <button onClick={this.selectAllTasksInCurrentPage}>Check All</button>
-      </div>
+        </div>
     );
   }
 }
 
 export default App;
 
-const TableRow = (props) => (
-    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">{props.children}</th>
-)
+

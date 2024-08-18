@@ -5,16 +5,13 @@ import { Button } from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
+  DropdownMenuContent, DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
 export function DropdownMenuCheckboxes(props) {
-  const [showStatusBar, setShowStatusBar] = React.useState(true);
-  const [showActivityBar, setShowActivityBar] = React.useState(false);
-  const [showPanel, setShowPanel] = React.useState(false);
+
 
   return (
     <DropdownMenu>
@@ -22,7 +19,7 @@ export function DropdownMenuCheckboxes(props) {
         <Button variant="outline">{props.children} {props.text}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        {/*<DropdownMenuLabel>Appearance</DropdownMenuLabel>*/}
+      <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem
           checked={props.showItemOneStatus}
