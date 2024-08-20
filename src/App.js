@@ -214,7 +214,7 @@ class App extends Component {
   onChangeSearchInput = event => {
     this.setState({
       searchInput: event.target.value,
-    },() =>this.getFilteredTasks(this.state.searchInput))
+    }, () => this.getFilteredTasks(this.state.searchInput))
   }
 
   getSelectedTask = (taskId) => {
@@ -234,13 +234,10 @@ class App extends Component {
     const {isAllSelected, currentTasks, selectedTasks} = this.state;
     const currentTaskIds = currentTasks.map(task => task.id);
 
-    if (isAllSelected) {
-      const newSelectedTasks = selectedTasks.filter(taskId => !currentTaskIds.includes(taskId));
-      this.setState({isAllSelected: false, selectedTasks: newSelectedTasks});
-    } else {
-      const newSelectedTasks = [...selectedTasks, ...currentTaskIds];
-      this.setState({isAllSelected: true, selectedTasks: newSelectedTasks});
-    }
+    const newSelectedTasks = (isAllSelected) ? selectedTasks.filter(taskId => !currentTaskIds.includes(taskId)) :
+      [...selectedTasks, ...currentTaskIds];
+
+    this.setState({isAllSelected: !isAllSelected, selectedTasks: newSelectedTasks});
   };
 
   showItemPriorityFunc = (priorityLevel) => {
@@ -320,16 +317,17 @@ class App extends Component {
           itemThreeStatusCount={this.countStatus(status[2])}
           itemFourStatusCount={this.countStatus(status[3])}
           itemFiveStatusCount={this.countStatus(status[4])}
-          itemOnePriority="Low" itemTwoPriority="Medium" itemThreePriority="High"
-          itemOneStatus="Backlog" itemTwoStatus="Todo" itemThreeStatus="In Progress"
-          itemFourStatus="Completed" itemFiveStatus="Cancelled"
-          showItemOnePriority="True"
+
+          itemOnePriority={priorities[0]} itemTwoPriority={priorities[1]} itemThreePriority={priorities[2]}
+          itemOneStatus={status[0]} itemTwoStatus={status[1]} itemThreeStatus={status[2]}
+          itemFourStatus={status[3]} itemFiveStatus={status[4]}
+          showItemOnePriority={priorities[0]}
           itemOnePriorityCount={this.countPriorities(priorities[0])}
           showItemOnePriorityFunc={() => this.showItemPriorityFunc(priorities[0])}
-          showItemTwoPriority="Medium"
+          showItemTwoPriority={priorities[1]}
           itemTwoPriorityCount={this.countPriorities(priorities[1])}
           showItemTwoPriorityFunc={() => this.showItemPriorityFunc(priorities[1])}
-          showItemThreePriority="High"
+          showItemThreePriority={priorities[2]}
           showItemThreePriorityFunc={() => this.showItemPriorityFunc(priorities[2])}
           itemThreePriorityCount={this.countPriorities(priorities[2])}
           currentPriorities={currentPriorities}

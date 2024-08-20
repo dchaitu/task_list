@@ -118,4 +118,4 @@ export const TableCell = (props) => (
 
 export const priorities = ["Low","Medium","High"]
 
-export const status = ["Backlog","Todo", "Medium", "In Progress", "Completed", "Cancelled"]
+export const status = ["Backlog","Todo", "In Progress", "Completed", "Cancelled"]
