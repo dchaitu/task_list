@@ -7,7 +7,7 @@ import {
   MdDone,
   MdArrowRightAlt,
   MdArrowDownward,
-  MdArrowUpward, MdOutlineKeyboardArrowRight
+  MdArrowUpward, MdOutlineKeyboardArrowRight, MdOutlineCancel
 } from 'react-icons/md';
 import {
   DropdownMenu,
@@ -24,7 +24,8 @@ const statusIconMap = {
   "Completed": <MdDone className="inline-block" size={iconSize} />,
   "In Progress": <MdOutlineTimer className="inline-block" size={iconSize}/>,
   "Backlog": <MdHelpOutline className="inline-block" size={iconSize}/>,
-  "Todo": <MdOutlineRadioButtonUnchecked className="inline-block" size={iconSize}/>
+  "Todo": <MdOutlineRadioButtonUnchecked className="inline-block" size={iconSize}/>,
+  "Cancelled": <MdOutlineCancel className="inline-block" size={iconSize}/>
 };
 
 // Priority to icon mapping
@@ -51,7 +52,7 @@ const Task = props => {
         <TableCell>
         <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">...</Button>
+                <Button variant="outline" className="border-0">...</Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
                   <DropdownMenuItem>Edit</DropdownMenuItem>

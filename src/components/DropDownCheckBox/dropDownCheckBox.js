@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "../ui/button";
+import {Button} from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -19,8 +19,8 @@ export function DropdownMenuCheckboxes(props) {
         <Button variant="outline">{props.children} {props.text}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-      <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
+        <DropdownMenuSeparator/>
         <DropdownMenuCheckboxItem
           checked={props.showItemOneStatus}
           onCheckedChange={props.setItemOneStatusFunc}
