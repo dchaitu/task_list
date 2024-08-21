@@ -3,9 +3,6 @@ import Task from "./components/Task/task";
 import {Component} from "react";
 import Header from "./components/Header/header";
 import {RiExpandUpDownLine} from "react-icons/ri";
-import {FaArrowUp} from "react-icons/fa6";
-import tasks, {priorities, status, TableRow} from './components/constants/constants'
-import {IoFilterOutline} from "react-icons/io5";
 import {Button} from "./components/ui/button";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "./components/ui/dropdown-menu";
 import {
@@ -14,6 +11,17 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight
 } from "react-icons/md";
+import CheckboxComponent from "./components/CheckboxComponent/checkboxComponent";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/ui/table"
+import {DropdownMenuColumn} from "./components/DropdownMenuColumn/dropdownMenuColumn";
+import {MixerHorizontalIcon} from "@radix-ui/react-icons";
+const tasks = require('./constants/tasks.json');
 
 class App extends Component {
 
@@ -72,7 +80,7 @@ class App extends Component {
   }
 
 
-  sortTasksByField = (tasks, field) => {
+  sortTasksByFieldAsc = (tasks, field) => {
     console.log(tasks, field);
     tasks.sort((a, b) => {
       if (a[field] < b[field]) {
@@ -87,6 +95,20 @@ class App extends Component {
     this.setState({currentTasks: tasks})
 
   }
+  sortTasksByFieldDescending = (tasks, field) => {
+  console.log(tasks, field);
+  tasks.sort((a, b) => {
+    if (a[field] < b[field]) {
+      return 1;
+    }
+    if (a[field] > b[field]) {
+      return -1;
+    }
+    return 0;
+  });
+  console.log(tasks);
+  this.setState({ currentTasks: tasks });
+}
 
   showTitleColFunc = () => {
     this.setState((prevState) => ({showTitleCol: !prevState.showTitleCol}))
@@ -236,7 +258,7 @@ class App extends Component {
 
     const newSelectedTasks = (isAllSelected) ? selectedTasks.filter(taskId => !currentTaskIds.includes(taskId)) :
       [...selectedTasks, ...currentTaskIds];
-
+    console.log("newSelectedTasks ",newSelectedTasks)
     this.setState({isAllSelected: !isAllSelected, selectedTasks: newSelectedTasks});
   };
 
@@ -278,6 +300,19 @@ class App extends Component {
     tasks.filter(task => task.status === status).length
   )
 
+  hidePriorityColFunc = () => {
+    this.setState({showPriorityCol:false})
+
+  }
+  hideTitleColFunc = () => {
+    this.setState({showTitleCol:false})
+
+  }
+  hideStatusColFunc = () => {
+    this.setState({showStatusCol:false})
+
+  }
+
 
   render() {
     const {
@@ -291,11 +326,11 @@ class App extends Component {
     } = this.state
     const currentTaskIds = currentTasks.map(task => task.id);
     const selectedTasksIds = currentTaskIds.every(id => selectedTasks.includes(id));
-    const filterIcon = <IoFilterOutline className="inline-block"/>
+    const filterIcon = <MixerHorizontalIcon className="inline-block mr-2 h-4 w-4"/>
     console.log(selectedTasksIds)
     console.log("currentPriorities", currentPriorities)
     return (
-      <div className="border-2 p-4 pb-10 shadow rounded-lg m-2">
+      <div className="overflow-hidden border-2 p-4 pb-10 shadow rounded-lg m-2 bg-background">
         <Header
           searchText={this.onChangeSearchInput}
           searchPriorityText={this.onChangePrioritySearchInput}
@@ -305,64 +340,66 @@ class App extends Component {
           showItemTwoStatus={showStatusCol} setItemTwoStatusFunc={this.showStatusColFunc}
           showItemThreeStatus={showPriorityCol} setItemThreeStatusFunc={this.showPriorityColFunc}
           iconFilter={filterIcon}
-
-          showItemOneStatusFunc={() => this.showItemStatusFunc(status[0])}
-          showItemTwoStatusFunc={() => this.showItemStatusFunc(status[1])}
-          showItemThreeStatusFunc={() => this.showItemStatusFunc(status[2])}
-          showItemFourStatusFunc={() => this.showItemStatusFunc(status[3])}
-          showItemFiveStatusFunc={() => this.showItemStatusFunc(status[4])}
-
-          itemOneStatusCount={this.countStatus(status[0])}
-          itemTwoStatusCount={this.countStatus(status[1])}
-          itemThreeStatusCount={this.countStatus(status[2])}
-          itemFourStatusCount={this.countStatus(status[3])}
-          itemFiveStatusCount={this.countStatus(status[4])}
-
-          itemOnePriority={priorities[0]} itemTwoPriority={priorities[1]} itemThreePriority={priorities[2]}
-          itemOneStatus={status[0]} itemTwoStatus={status[1]} itemThreeStatus={status[2]}
-          itemFourStatus={status[3]} itemFiveStatus={status[4]}
-          showItemOnePriority={priorities[0]}
-          itemOnePriorityCount={this.countPriorities(priorities[0])}
-          showItemOnePriorityFunc={() => this.showItemPriorityFunc(priorities[0])}
-          showItemTwoPriority={priorities[1]}
-          itemTwoPriorityCount={this.countPriorities(priorities[1])}
-          showItemTwoPriorityFunc={() => this.showItemPriorityFunc(priorities[1])}
-          showItemThreePriority={priorities[2]}
-          showItemThreePriorityFunc={() => this.showItemPriorityFunc(priorities[2])}
-          itemThreePriorityCount={this.countPriorities(priorities[2])}
           currentPriorities={currentPriorities}
           currentStatuses={currentStatuses}
           reset={this.resetAllData}
+          selectedOption={this.showItemPriorityFunc}
+          selectedStatusOption={this.showItemStatusFunc}
+          countStatusFunc={this.countStatus}
+          countPriorityFunc={this.countPriorities}
 
         />
 
-
         <div className="container mx-auto px-4 sm:px-8">
           <div className="min-w-full shadow rounded-lg overflow-hidden">
-            <table className="w-full caption-bottom text-sm">
-              <thead>
-              <TableRow>
-                <input type="checkbox" checked={selectedTasksIds} onChange={this.selectAllTasksInCurrentPage}/>
+            <Table>
+              <TableHeader>
+                <TableRow className="h-5">
+                  <TableHead>
+                    <CheckboxComponent id="task" checked={selectedTasksIds} onCheckedChange={this.selectAllTasksInCurrentPage}
+                              text="Task"/>
+                  </TableHead>
+                  {showTitleCol && <TableHead>
+                    <DropdownMenuColumn
+                      setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "title")}
+                    itemOne="Asc"
+                    setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "title")}
+                    itemTwo="Desc"
+                    itemThree="Hide"
+                    setItemThreeStatusFunc={() => this.hideTitleColFunc()}
+                    text="Title"/>
+              </TableHead>}
+                {showStatusCol && <TableHead>
+
+                  <DropdownMenuColumn
+                    setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "status")}
+                    itemOne="Asc"
+                    setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "status")}
+                    itemTwo="Desc"
+                    itemThree="Hide"
+                    setItemThreeStatusFunc={() => this.hideStatusColFunc()}
+                    text="Status"/>
+                </TableHead>}
+              {showPriorityCol && <TableHead>
+                <DropdownMenuColumn
+                  setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "priority")}
+                  itemOne="Asc"
+                  setItemTwoStatusFunc={()=> this.sortTasksByFieldDescending(currentTasks,"priority")}
+                  itemTwo="Desc"
+                  itemThree="Hide"
+                  setItemThreeStatusFunc={()=> this.hidePriorityColFunc()}
+                  text="Priority"
+                />
+              </TableHead>
+              }
+              <TableHead/>
               </TableRow>
-              <TableRow>Task</TableRow>
-              {showTitleCol && <TableRow>
-                <button>Title <RiExpandUpDownLine className="inline-block"/></button>
-              </TableRow>}
-              {showStatusCol && <TableRow>
-                <button onClick={() => this.sortTasksByField(currentTasks, "status")}>Status <FaArrowUp
-                  className="inline-block"/></button>
-              </TableRow>}
-              {showPriorityCol && <TableRow>
-                <button onClick={() => this.sortTasksByField(currentTasks, "priority")}>Priority <RiExpandUpDownLine
-                  className="inline-block"/></button>
-              </TableRow>}
-              <TableRow/>
-              </thead>
-              <tbody>
+              </TableHeader>
+              <TableBody>
               {this.getTasks()}
-              </tbody>
-            </table>
-            {this.renderPagination()}
+              </TableBody>
+            </Table>
+              {this.renderPagination()}
           </div>
         </div>
       </div>

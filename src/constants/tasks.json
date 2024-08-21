@@ -1,4 +1,4 @@
-const tasks = [
+[
   {
     "id": "1",
     "name": "Task 1",
@@ -102,20 +102,5 @@ const tasks = [
     "status": "Cancelled",
     "priority": "High",
     "tag": "Documentation"
-  },
+  }
 ]
-
-export default tasks
-
-
-export const TableRow = (props) => (
-
-  <th className="p-2 border-b-2 border-gray-200 text-left text-xs font-medium text-gray-600 uppercase tracking-wider pl-3">{props.children}</th>
-)
-export const TableCell = (props) => (
-  <td className="p-1 border-b border-gray-200 bg-white text-sm pl-3">{props.children}</td>
-)
-
-export const priorities = ["Low","Medium","High"]
-
-export const status = ["Backlog","Todo", "In Progress", "Completed", "Cancelled"]

@@ -12,11 +12,10 @@
 }
 
 .tag{
-  @apply text-gray-800 leading-tight;
+  @apply text-gray-800 leading-tight ;
   font-weight: bold;
   border-radius: 4px;
   border: 1px solid grey;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Add some shadow */
   padding: 5px;
   margin: 5px;
 

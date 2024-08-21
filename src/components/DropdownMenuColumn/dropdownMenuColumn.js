@@ -5,40 +5,39 @@ import {Button} from "../ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
-  DropdownMenuContent, DropdownMenuLabel,
+  DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import {CaretSortIcon} from "@radix-ui/react-icons"
 
-export function DropdownMenuCheckboxes(props) {
-
+export function DropdownMenuColumn(props) {
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{props.children} {props.text}</Button>
+        <Button variant="ghost">{props.text} <CaretSortIcon/></Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
-        <DropdownMenuSeparator/>
+
         <DropdownMenuCheckboxItem
-          checked={props.showItemOneStatus}
           onCheckedChange={props.setItemOneStatusFunc}
         >
           {props.itemOne}
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
-          checked={props.showItemTwoStatus}
           onCheckedChange={props.setItemTwoStatusFunc}
         >
           {props.itemTwo}
         </DropdownMenuCheckboxItem>
+        <DropdownMenuSeparator/>
+
         <DropdownMenuCheckboxItem
-          checked={props.showItemThreeStatus}
           onCheckedChange={props.setItemThreeStatusFunc}
         >
           {props.itemThree}
         </DropdownMenuCheckboxItem>
+
 
       </DropdownMenuContent>
     </DropdownMenu>
