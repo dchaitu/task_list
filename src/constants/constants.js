@@ -20,6 +20,22 @@ export const priorities = ["Low","Medium","High"]
 
 export const status = ["Backlog","Todo", "In Progress", "Completed", "Cancelled"]
 
+export const labels = [
+  {
+    value: "bug",
+    label: "Bug",
+  },
+  {
+    value: "feature",
+    label: "Feature",
+  },
+  {
+    value: "documentation",
+    label: "Documentation",
+  },
+]
+
+
 export const allStatuses = [
   {
     value: status[0],

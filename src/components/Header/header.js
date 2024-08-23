@@ -48,7 +48,7 @@ const Header = (props) => {
           <Input className="text-box h-8 m-2 w-[150px] lg:w-[250px]" onChange={searchText} type="text"
                  placeholder="Filter Tasks..."/>
           <div className="flex flex-row m-1">
-            <DropDownWithSearchBar selectedOption={props.selectedStatusOption} allOptions={allStatuses}
+            <DropDownWithSearchBar key="status" selectedOption={props.selectedStatusOption} allOptions={allStatuses}
                                    propertyName="Status"
                                    placeholder="Status"
                                    countFunc={props.countStatusFunc}
@@ -60,7 +60,7 @@ const Header = (props) => {
                                    />}
             />
 
-            <DropDownWithSearchBar selectedOption={props.selectedOption} allOptions={allPriorities}
+            <DropDownWithSearchBar key="priority" selectedOption={props.selectedOption} allOptions={allPriorities}
                                    propertyName="Priority"
                                    placeholder="Priority"
                                    countFunc={props.countPriorityFunc}

@@ -21,6 +21,8 @@ import {
 } from "./components/ui/table"
 import {DropdownMenuColumn} from "./components/DropdownMenuColumn/dropdownMenuColumn";
 import {MixerHorizontalIcon} from "@radix-ui/react-icons";
+import {labels} from "./constants/constants";
+
 const tasks = require('./constants/tasks.json');
 
 class App extends Component {
@@ -171,7 +173,7 @@ class App extends Component {
             <div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="ml-2 pr-2 pl-2" variant="outline"><span
+                  <Button className="ml-2 pr-2 pl-2 h-8" variant="outline"><span
                     className="pr-3">{recordsPerPage}</span><RiExpandUpDownLine
                     className="inline-block"/> </Button>
                 </DropdownMenuTrigger>
@@ -188,16 +190,18 @@ class App extends Component {
           </div>
 
           <div className="flex flex-row items-center mr-2 ml-3">
-            <Button variant="outline" className="p-2 mr-2" onClick={this.startingPage}
+            <Button variant="outline" className="hidden h-8 w-8 p-2 lg:flex" onClick={this.startingPage}
                     disabled={currentPage === 1}>
               <MdKeyboardDoubleArrowLeft size={20} className="h-4 w-4"/></Button>
-            <Button variant="outline" className="p-2 mr-2" onClick={this.prevPage}
+            <Button variant="outline" className="p-2 h-8 w-8 mr-2 ml-2" onClick={this.prevPage}
                     disabled={currentPage === 1}>
               <MdKeyboardArrowLeft size={20} className="h-4 w-4"/></Button>
-            <Button variant="outline" className="p-2 mr-2" onClick={this.nextPage}
+            <Button variant="outline" className="p-2 mr-2 h-8 w-8" onClick={this.nextPage}
                     disabled={currentPage === totalPages}>
               <MdKeyboardArrowRight size={20} className="h-4 w-4"/></Button>
-            <Button variant="outline" className="p-2 mr-2" onClick={this.lastPage}
+            <Button variant="outline" onClick={this.lastPage}
+                                className="hidden h-8 w-8 p-0 lg:flex"
+
                     disabled={currentPage === totalPages}>
               <MdKeyboardDoubleArrowRight size={20} className="h-4 w-4"/></Button>
           </div>
@@ -228,6 +232,7 @@ class App extends Component {
               showStatusCol={showStatusCol}
               showPriorityCol={showPriorityCol}
               isCheckboxSelected={selectedTasks.includes(task['id'])}
+              labels={labels}
         />
       )
     });

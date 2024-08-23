@@ -34,14 +34,14 @@ const DropDownWithSearchBar = (props) => {
           <span>{props.propertyName}</span> <span>{props.option}</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px]">
+      <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder={props.placeholder} className="h-9"/>
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
               {props.allOptions.map((framework) => (
-                <div>
+                <div key={framework.value}>
                   <CommandItem className="flex flex-row justify-between"
                                key={framework.value}
                                value={framework.value}
