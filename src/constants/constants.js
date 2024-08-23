@@ -15,10 +15,7 @@ export const TableRow = (props) => (
 export const TableCell = (props) => (
   <td className="p-1 border-b border-gray-200 bg-white text-sm pl-3">{props.children}</td>
 )
-
-export const priorities = ["Low","Medium","High"]
-
-export const status = ["Backlog","Todo", "In Progress", "Completed", "Cancelled"]
+const iconSize = 20
 
 export const labels = [
   {
@@ -35,51 +32,52 @@ export const labels = [
   },
 ]
 
+const iconClass = "inline-block mx-2 h-4 w-4 text-muted-foreground"
 
 export const allStatuses = [
   {
-    value: status[0],
-    label: status[0],
-    icon: <QuestionMarkCircledIcon />
+    value: "backlog",
+    label: "Backlog",
+    icon: <QuestionMarkCircledIcon  className={iconClass} size={iconSize}/>
   },
   {
-    value: status[1],
-    label: status[1],
-    icon: <CircleIcon />
+    value: "todo",
+    label: "Todo",
+    icon: <CircleIcon  className={iconClass} size={iconSize}/>
   },
   {
-    value: status[2],
-    label: status[2],
-    icon: <StopwatchIcon />
+    value: "in progress",
+    label: "In Progress",
+    icon: <StopwatchIcon className={iconClass} size={iconSize}/>
   },
   {
-    value: status[3],
-    label: status[3],
-    icon: <CheckCircledIcon />
+    value: "done",
+    label: "Done",
+    icon: <CheckCircledIcon className={iconClass} size={iconSize} />
   },
   {
-    value: status[4],
-    label: status[4],
-    icon: <CrossCircledIcon />
+    value: "canceled",
+    label: "Canceled",
+    icon: <CrossCircledIcon className={iconClass} size={iconSize}/>
   },
 ]
 
 export const allPriorities = [
   {
-    value: priorities[0],
-    label: priorities[0],
-    icon: <ArrowUpIcon />
+    value: "low",
+    label: "Low",
+    icon: <ArrowUpIcon className={iconClass} size={iconSize}/>
   },
   {
-    value: priorities[1],
-    label: priorities[1],
-    icon: <ArrowRightIcon/>
+    value: "medium",
+    label: "Medium",
+    icon: <ArrowRightIcon className={iconClass} size={iconSize}/>
 
   },
   {
-    value: priorities[2],
-    label: priorities[2],
-    icon: <ArrowDownIcon/>
+    value: "high",
+    label: "High",
+    icon: <ArrowDownIcon className={iconClass} size={iconSize}/>
 
   },
 

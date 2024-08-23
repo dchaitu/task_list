@@ -3,12 +3,12 @@ import './header.css';
 import {Button} from "../ui/button";
 import {DropdownDetails} from "../DropDownDetails/dropDownDetails";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
 } from "../ui/dropdown-menu";
 import * as React from "react";
 import DropDownWithSearchBar from "../DropDownWithSearchBar/dropDownWithSearchBar";
@@ -16,6 +16,9 @@ import {Cross2Icon, PlusCircledIcon} from "@radix-ui/react-icons";
 import {allPriorities, allStatuses} from "../../constants/constants";
 import {Separator} from "../ui/separator";
 import {Input} from "../ui/input";
+import {Badge} from "../ui/badge";
+
+
 
 
 const Header = (props) => {
@@ -23,13 +26,21 @@ const Header = (props) => {
 
   const {searchText} = props;
 
-  const showPriorities = () => (
-    props.currentPriorities.map((item) => <span className="bg-gray-100 m-2 p-1 rounded">{item}</span>
-    ))
+  const showPriorities = () => {
+      console.log("showPriorities ", props.currentPriorities);
+      return (
+          props.currentPriorities.map((item) => <Badge
+                  variant="secondary"
+                  className="rounded-sm px-1 font-normal lg:hidden"
+              >{item}</Badge>
+          ))
+  }
 
-  const showStatuses = () => (
-    props.currentStatuses.map((item) => <span className="bg-gray-100 m-2 p-1 rounded">{item}</span>))
-
+  const showStatuses = () => {
+      console.log("showStatuses in func ", props.currentStatuses);
+      return (
+          props.currentStatuses.map((item) => <span className="bg-gray-100 m-2 p-1 rounded">{item}</span>))
+  }
   return (
     <div className="container heading mx-auto px-4 sm:px-8 ">
 
@@ -48,28 +59,41 @@ const Header = (props) => {
           <Input className="text-box h-8 m-2 w-[150px] lg:w-[250px]" onChange={searchText} type="text"
                  placeholder="Filter Tasks..."/>
           <div className="flex flex-row m-1">
-            <DropDownWithSearchBar key="status" selectedOption={props.selectedStatusOption} allOptions={allStatuses}
-                                   propertyName="Status"
-                                   placeholder="Status"
-                                   countFunc={props.countStatusFunc}
-                                   currentPriorities={props.currentStatuses}
-                                   option={props.currentStatuses.length > 0 &&
-                                     <div><Separator orientation="vertical"/>
-                                       {showStatuses()} </div>}
-                                   icon={<PlusCircledIcon className="h-4 w-4"
-                                   />}
-            />
+              <DropDownWithSearchBar
+                  key="status"
+                  selectedOption={props.selectedStatusOption}
+                  allOptions={allStatuses}
+                  propertyName="Status"
+                  placeholder="Status"
+                  countFunc={props.countStatusFunc}
+                  currentProperties={props.currentStatuses}
+                  option={props.currentStatuses?.length > 0 && (
+                      <>
+                          <Separator orientation="vertical" className="mx-2 h-4"/>
+                          {showStatuses()}
+                      </>
+                  )}
+                  icon={<PlusCircledIcon className="h-4 w-4" />}
+                  clearFilter={props.clearStatusFilter}
+              />
 
-            <DropDownWithSearchBar key="priority" selectedOption={props.selectedOption} allOptions={allPriorities}
-                                   propertyName="Priority"
-                                   placeholder="Priority"
-                                   countFunc={props.countPriorityFunc}
-                                   currentPriorities={props.currentPriorities}
-                                   option={props.currentPriorities.length > 0 ? (<><Separator
-                                       orientation="vertical" className="w-[10px]"/> {showPriorities()}</>)
-                                     : showPriorities()}
-                                   icon={<PlusCircledIcon className="h-4 w-4"/>}
-            />
+              <DropDownWithSearchBar
+                  key="priority"
+                  selectedOption={props.selectedOption}
+                  allOptions={allPriorities}
+                  propertyName="Priority"
+                  placeholder="Priority"
+                  countFunc={props.countPriorityFunc}
+                  currentProperties={props.currentPriorities}
+                  option={props.currentPriorities?.length > 0 && (
+                      <>
+                          <Separator orientation="vertical" className="mx-2 h-4" />
+                          {showPriorities()}
+                      </>
+                  )}
+                  icon={<PlusCircledIcon className="h-4 w-4" />}
+                  clearFilter={props.clearPriorityFilter}
+              />
 
           </div>
           <div>

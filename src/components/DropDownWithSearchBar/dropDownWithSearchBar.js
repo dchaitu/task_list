@@ -8,7 +8,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
+  CommandList, CommandSeparator,
 } from "../ui/command"
 import {
   Popover,
@@ -28,10 +28,9 @@ const DropDownWithSearchBar = (props) => {
           role="combobox"
           aria-expanded={open}
           size="sm"
-          className="flex flex-row justify-between mr-2 mt-1"
-        >
-          <span className="mr-2">{props.icon}</span>
-          <span>{props.propertyName}</span> <span>{props.option}</span>
+          className="flex flex-row justify-between h-8 mr-2 mt-1 border-dashed"
+        >{props.icon}
+          <span>{props.propertyName}</span> {props.option}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -50,7 +49,7 @@ const DropDownWithSearchBar = (props) => {
                     <div className="flex flex-row justify-around">
                       <Checkbox
                         className="mr-1 h-4 w-4 opacity-100"
-                        checked={props.currentPriorities.includes(framework.value)}/>
+                        checked={props.currentProperties.includes(framework.value)}/>
                       <span className="mt-0.5 mr-1">{framework.icon}</span>
                       <span>{framework.label}</span>
                     </div>
@@ -61,6 +60,12 @@ const DropDownWithSearchBar = (props) => {
                   </CommandItem>
                 </div>
               ))}
+              <CommandSeparator/>
+              <CommandItem className="flex flex-row justify-center"
+                           onSelect={props.clearFilter}
+              >
+                Clear Filters
+              </CommandItem>
             </CommandGroup>
           </CommandList>
         </Command>
