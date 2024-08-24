@@ -50,7 +50,7 @@ const DropDownWithSearchBar = (props) => {
                       <Checkbox
                         className="mr-1 h-4 w-4 opacity-100"
                         checked={props.currentProperties.includes(framework.value)}/>
-                      <span className="mt-0.5 mr-1">{framework.icon}</span>
+                      <span className="mb-1 mr-1">{framework.icon}</span>
                       <span>{framework.label}</span>
                     </div>
 

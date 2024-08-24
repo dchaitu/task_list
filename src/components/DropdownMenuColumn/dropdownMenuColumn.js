@@ -4,7 +4,7 @@ import * as React from "react";
 import {Button} from "../ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -20,26 +20,26 @@ export function DropdownMenuColumn(props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-46 " align="start">
 
-        <DropdownMenuCheckboxItem
+        <DropdownMenuItem
           onCheckedChange={props.setItemOneStatusFunc}
         >
-          <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Asc
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
+        </DropdownMenuItem>
+        <DropdownMenuItem
           onCheckedChange={props.setItemTwoStatusFunc}
         >
-          <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Desc
-        </DropdownMenuCheckboxItem>
+        </DropdownMenuItem>
         <DropdownMenuSeparator/>
 
-        <DropdownMenuCheckboxItem
+        <DropdownMenuItem
           onCheckedChange={props.setItemThreeStatusFunc}
         >
-          <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Hide
-        </DropdownMenuCheckboxItem>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
