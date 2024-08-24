@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import {CaretSortIcon} from "@radix-ui/react-icons"
+import {ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon} from "@radix-ui/react-icons"
 
 export function DropdownMenuColumn(props) {
 
@@ -18,27 +18,28 @@ export function DropdownMenuColumn(props) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost">{props.text} <CaretSortIcon/></Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-46 " align="start">
 
         <DropdownMenuCheckboxItem
           onCheckedChange={props.setItemOneStatusFunc}
         >
-          {props.itemOne}
+          <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Asc
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           onCheckedChange={props.setItemTwoStatusFunc}
         >
-          {props.itemTwo}
+          <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Desc
         </DropdownMenuCheckboxItem>
         <DropdownMenuSeparator/>
 
         <DropdownMenuCheckboxItem
           onCheckedChange={props.setItemThreeStatusFunc}
         >
-          {props.itemThree}
+          <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+          Hide
         </DropdownMenuCheckboxItem>
-
-
       </DropdownMenuContent>
     </DropdownMenu>
   );
