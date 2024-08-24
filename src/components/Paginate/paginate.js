@@ -28,7 +28,7 @@ const Paginate = (props) => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="pr-2 w-56">
                 {noOfRowsPerPage.map(row =>
-                  <DropdownMenuItem onClick={() => props.updateNoofRows(row)}
+                  <DropdownMenuItem key={row} onClick={() => props.updateNoofRows(row)}
                                     value={row}>{row}</DropdownMenuItem>
                 )}
 

@@ -21,13 +21,13 @@ export function DropdownMenuColumn(props) {
       <DropdownMenuContent className="w-46 " align="start">
 
         <DropdownMenuItem
-          onCheckedChange={props.setItemOneStatusFunc}
+          onClick={props.setItemOneStatusFunc}
         >
           <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Asc
         </DropdownMenuItem>
         <DropdownMenuItem
-          onCheckedChange={props.setItemTwoStatusFunc}
+          onClick={props.setItemTwoStatusFunc}
         >
           <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Desc
@@ -35,7 +35,7 @@ export function DropdownMenuColumn(props) {
         <DropdownMenuSeparator/>
 
         <DropdownMenuItem
-          onCheckedChange={props.setItemThreeStatusFunc}
+          onClick={props.setItemThreeStatusFunc}
         >
           <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
           Hide
