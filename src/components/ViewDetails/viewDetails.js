@@ -16,7 +16,7 @@ const ViewDetails = (props) => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="ml-auto hidden h-8 lg:flex">{props.iconFilter} {props.text}</Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
+            <DropdownMenuContent  align="end"  className="w-56">
               <DropdownMenuLabel>Toggle Columns</DropdownMenuLabel>
               <DropdownMenuSeparator/>
               <DropdownMenuCheckboxItem

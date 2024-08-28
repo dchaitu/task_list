@@ -15,7 +15,7 @@ import {getTagValue} from "../../constants/constantFunctions";
 
 const TaskOptions = (props) => {
   return (
-    <TableCell className="p-2">
+    <TableCell className="p-2 w-[50px]">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="border-0 h-8 w-8 p-0 ">

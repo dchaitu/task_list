@@ -19,7 +19,7 @@ const Header = (props) => {
   const {searchText} = props;
   const filterIcon = <MixerHorizontalIcon className="inline-block mr-2 h-4 w-4"/>
 
-  const dropDownSearchBarIcon = <PlusCircledIcon className="h-4 w-4"/>
+  const dropDownSearchBarIcon = <PlusCircledIcon className="mr-2 h-4 w-4"/>
 
   const showPriorities = () => (
     props.currentPriorities.length > 0 && (
@@ -41,7 +41,7 @@ const Header = (props) => {
             (
               props.currentPriorities.map((item) => <Badge
                   variant="secondary"
-                  className="rounded-sm px-1 space-x-1 lg:flex"
+                  className="rounded-sm px-1  font-normal"
                   key={getPriorityValue(item).value}
                 >{getPriorityValue(item).label}</Badge>
               )

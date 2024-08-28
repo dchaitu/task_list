@@ -256,37 +256,43 @@ class App extends Component {
         />
 
         <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-          <div className="min-w-full shadow rounded-md border overflow-auto">
+          <div className="rounded-md border">
             <Table className="w-full caption-bottom text-sm">
               <TableHeader className="p-2">
                 <TableRow className="p-2">
                   <TableHead className="p-2">
+
                     <CheckboxComponent id="task" checked={selectedTasksIds}
                                        onCheckedChange={this.selectAllTasksInCurrentPage}
                                        text="Task"/>
                   </TableHead>
                   {showTitleCol && <TableHead>
+                    <div className="flex items-center space-x-2 w-1/2">
                     <DropdownMenuColumn
-                      setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "title")}
-                      setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "title")}
-                      setItemThreeStatusFunc={() => this.hideTitleColFunc()}
-                      text="Title"/>
+                        setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "title")}
+                        setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "title")}
+                        setItemThreeStatusFunc={() => this.hideTitleColFunc()}
+                        text="Title"/>
+                    </div>
                   </TableHead>}
                   {showStatusCol && <TableHead>
-
-                    <DropdownMenuColumn
-                      setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "status")}
-                      setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "status")}
-                      setItemThreeStatusFunc={() => this.hideStatusColFunc()}
-                      text="Status"/>
+                    <div className="flex items-center space-x-2 w-1/8">
+                      <DropdownMenuColumn
+                          setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "status")}
+                          setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "status")}
+                          setItemThreeStatusFunc={() => this.hideStatusColFunc()}
+                          text="Status"/>
+                    </div>
                   </TableHead>}
                   {showPriorityCol && <TableHead>
-                    <DropdownMenuColumn
-                      setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "priority")}
-                      setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "priority")}
-                      setItemThreeStatusFunc={() => this.hidePriorityColFunc()}
-                      text="Priority"
-                    />
+                    <div className="flex items-center space-x-2 w-1/8">
+                      <DropdownMenuColumn
+                          setItemOneStatusFunc={() => this.sortTasksByFieldAsc(currentTasks, "priority")}
+                          setItemTwoStatusFunc={() => this.sortTasksByFieldDescending(currentTasks, "priority")}
+                          setItemThreeStatusFunc={() => this.hidePriorityColFunc()}
+                          text="Priority"
+                      />
+                    </div>
                   </TableHead>
                   }
                   <TableHead/>

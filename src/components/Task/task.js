@@ -25,7 +25,7 @@ const Task = props => {
 
     return (
         <TableRow key={taskId} >
-            <TableCell className="p-2 w-[150px]">
+            <TableCell className="p-2 w-[130px]">
                 <CheckboxComponent
                     onCheckedChange={selectTask}
                     checked={isCheckboxSelected}
@@ -33,13 +33,13 @@ const Task = props => {
                 />
             </TableCell>
             {showTitleCol && (
-                <TableCell className="p-2 font-bold max-w-[400px] truncate ">
+                <TableCell className="p-2 font-bold max-w-[500px] truncate ">
                     <Badge className="rounded-md" variant="outline">{getTagValue(taskTag).label}</Badge>
                     <span className="ml-1 font-medium">{taskTitle}</span>
                 </TableCell>
             )}
-            {showStatusCol && <TableCell className="p-2 px-4">{getStatusValue(taskStatus)?.icon} {getStatusValue(taskStatus)?.label}</TableCell>}
-            {showPriorityCol && <TableCell className="p-2 px-4">{getPriorityValue(taskPriority)?.icon} {getPriorityValue(taskPriority)?.label}</TableCell>}
+            {showStatusCol && <TableCell className="p-2 px-4 w-[150px]">{getStatusValue(taskStatus)?.icon} {getStatusValue(taskStatus)?.label}</TableCell>}
+            {showPriorityCol && <TableCell className="p-2 px-4 w-[150px]">{getPriorityValue(taskPriority)?.icon} {getPriorityValue(taskPriority)?.label}</TableCell>}
             <TaskOptions taskTag={taskTag}/>
         </TableRow>
     );
