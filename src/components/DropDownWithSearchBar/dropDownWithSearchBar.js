@@ -28,7 +28,7 @@ const DropDownWithSearchBar = (props) => {
           role="combobox"
           aria-expanded={open}
           size="sm"
-          className="flex flex-row justify-between h-8 mr-2 mt-1 border-dashed"
+          className="flex flex-row justify-between h-8 mr-2 border-dashed"
         >{props.icon}
           <span>{props.propertyName}</span> {props.option}
         </Button>

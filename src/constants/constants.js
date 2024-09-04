@@ -66,7 +66,7 @@ export const allPriorities = [
   {
     value: "low",
     label: "Low",
-    icon: <ArrowUpIcon className={iconClass} size={iconSize}/>
+    icon: <ArrowDownIcon className={iconClass} size={iconSize}/>
   },
   {
     value: "medium",
@@ -77,7 +77,7 @@ export const allPriorities = [
   {
     value: "high",
     label: "High",
-    icon: <ArrowDownIcon className={iconClass} size={iconSize}/>
+    icon: < ArrowUpIcon className={iconClass} size={iconSize}/>
 
   },
 

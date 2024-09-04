@@ -235,7 +235,8 @@ class App extends Component {
     const selectedTasksIds = currentTaskIds.every(id => selectedTasks.includes(id));
 
     return (
-      <div className="overflow-hidden border-2 p-4 pb-10 shadow rounded-lg m-2 bg-background">
+      <div className="overflow-hidden border shadow rounded-lg m-2 bg-background">
+        <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <Header
           searchText={this.onChangeSearchInput}
           showItemOneStatus={showTitleCol} setItemOneStatusFunc={this.showTitleColFunc}
@@ -255,11 +256,11 @@ class App extends Component {
 
         />
 
-        <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+
           <div className="rounded-md border">
             <Table className="w-full caption-bottom text-sm">
-              <TableHeader className="p-2">
-                <TableRow className="p-2">
+              <TableHeader>
+                <TableRow>
                   <TableHead className="p-2">
 
                     <CheckboxComponent id="task" checked={selectedTasksIds}
@@ -304,7 +305,7 @@ class App extends Component {
             </Table>
           </div>
           {this.renderPagination()}
-        </div>
+      </div>
       </div>
     );
   }

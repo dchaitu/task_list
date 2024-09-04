@@ -2,7 +2,7 @@ import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger
 import {Button} from "../ui/button";
 import {RiExpandUpDownLine} from "react-icons/ri";
 import {DoubleArrowLeftIcon, DoubleArrowRightIcon} from "@radix-ui/react-icons";
-import {MdKeyboardArrowLeft, MdKeyboardArrowRight} from "react-icons/md";
+import {ChevronLeftIcon, ChevronRightIcon} from "lucide-react";
 
 const Paginate = (props) => {
 
@@ -11,14 +11,15 @@ const Paginate = (props) => {
   const noOfRowsPerPage = [10, 20, 30, 40, 50]
 
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-center px-2">
       <div
-        className="flex-1  p-2 self-center text-sm text-muted-foreground">{selectedTasks.length} of {currentTasks.length} row(s)
+        className="flex-1 text-sm text-muted-foreground">{selectedTasks.length} of {currentTasks.length} row(s)
         selected.
       </div>
 
-      <div className="flex flex-row justify-around p-2">
-        <div className="flex items-center space-x-2"><p className="text-sm font-medium">Rows per page</p>
+      <div className="flex items-center space-x-6 lg:space-x-8">
+        <div className="flex items-center space-x-2">
+          <p className="text-sm font-medium">Rows per page</p>
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -40,19 +41,23 @@ const Paginate = (props) => {
           Page {currentPage} of {totalPages}
         </div>
 
-        <div className="flex flex-row items-center mr-2 ml-3">
+        <div className="flex items-center space-x-2">
           <Button variant="outline" className="hidden h-8 w-8 p-2 lg:flex" onClick={props.startingPage}
                   disabled={currentPage === 1}>
+            <span className="sr-only">Go to first page</span>
             <DoubleArrowLeftIcon size={20} className="h-4 w-4"/></Button>
           <Button variant="outline" className="p-2 h-8 w-8 mr-2 ml-2" onClick={props.prevPage}
                   disabled={currentPage === 1}>
-            <MdKeyboardArrowLeft size={20} className="h-4 w-4"/></Button>
+            <span className="sr-only">Go to previous page</span>
+            <ChevronLeftIcon size={20} className="h-4 w-4"/></Button>
           <Button variant="outline" className="p-2 mr-2 h-8 w-8" onClick={props.nextPage}
                   disabled={currentPage === totalPages}>
-            <MdKeyboardArrowRight size={20} className="h-4 w-4"/></Button>
+            <span className="sr-only">Go to next page</span>
+            <ChevronRightIcon size={20} className="h-4 w-4"/></Button>
           <Button variant="outline" onClick={props.lastPage}
                   className="hidden h-8 w-8 p-0 lg:flex"
                   disabled={currentPage === totalPages}>
+            <span className="sr-only">Go to last page</span>
             <DoubleArrowRightIcon size={20} className="h-4 w-4"/></Button>
         </div>
       </div>
