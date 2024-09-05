@@ -119,7 +119,7 @@ class App extends Component {
   }
 
   getTasks = () => {
-    const {showTitleCol, showStatusCol, showPriorityCol, currentPage, recordsPerPage, selectedTasks, currentTasks} = this.state
+    const {showTitleCol, showStatusCol, showPriorityCol,  selectedTasks} = this.state
     const displayTasks = this.getCurrentPageTasks()
     let colSpanSize = 3
     colSpanSize += showTitleCol ? 1 : 0;
