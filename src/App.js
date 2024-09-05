@@ -3,13 +3,7 @@ import Task from "./components/Task/task";
 import {Component} from "react";
 import Header from "./components/Header/header";
 import CheckboxComponent from "./components/CheckboxComponent/checkboxComponent";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./components/ui/table"
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "./components/ui/table"
 import {DropdownMenuColumn} from "./components/DropdownMenuColumn/dropdownMenuColumn";
 import {labels} from "./constants/constants";
 import Paginate from "./components/Paginate/paginate";
@@ -31,12 +25,13 @@ class App extends Component {
     isAllSelected: false,
     currentPriorities: [],
     currentStatuses: [],
+    displayTasks: []
   }
 
 
   getFilteredTasks = (titleName) => {
     this.setState(
-      {currentTasks: tasks.filter((task) => task["title"].includes(titleName))})
+      {currentTasks: tasks.filter((task) => task["title"].toLowerCase().includes(titleName.toLowerCase())),})
   }
 
   sortTasksByFieldAsc = (tasks, field) => {
@@ -89,7 +84,7 @@ class App extends Component {
   }
 
   resetAllData = () => {
-    this.setState({currentPriorities: [], currentStatuses: [], currentTasks: tasks})
+    this.setState({currentPriorities: [], currentStatuses: [], currentTasks: tasks, searchInput: ''})
   }
   clearPriorityFilter = () => {
     this.setState({currentPriorities: []})
@@ -116,31 +111,47 @@ class App extends Component {
     )
   }
 
-
-  getTasks = () => {
-    const {showTitleCol, showStatusCol, showPriorityCol, currentPage, recordsPerPage, selectedTasks} = this.state
+  getCurrentPageTasks = () => {
+    const {currentPage, recordsPerPage, currentTasks} = this.state
     const indexOfLastTask = currentPage * recordsPerPage;
     const indexOfFirstTask = indexOfLastTask - recordsPerPage;
-    const currentTasks = this.state.currentTasks.slice(indexOfFirstTask, indexOfLastTask);
-    return currentTasks.map(task => {
+    return currentTasks.slice(indexOfFirstTask, indexOfLastTask)
+  }
 
-      return (
-        <Task key={task["id"]}
-              taskId={task["id"]}
-              taskName={task["id"]}
-              taskTag={task["label"]}
-              taskTitle={task["title"]}
-              taskStatus={task["status"]}
-              taskPriority={task["priority"]}
-              selectTask={() => this.getSelectedTask(task["id"])}
-              showTitleCol={showTitleCol}
-              showStatusCol={showStatusCol}
-              showPriorityCol={showPriorityCol}
-              isCheckboxSelected={selectedTasks.includes(task['id'])}
-              labels={labels}
-        />
+  getTasks = () => {
+    const {showTitleCol, showStatusCol, showPriorityCol, currentPage, recordsPerPage, selectedTasks, currentTasks} = this.state
+    const displayTasks = this.getCurrentPageTasks()
+    let colSpanSize = 3
+    colSpanSize += showTitleCol ? 1 : 0;
+    colSpanSize += showStatusCol ? 1 : 0;
+    colSpanSize += showPriorityCol ? 1 : 0;
+
+
+
+    if(displayTasks.length < 1) {
+      return (<TableRow>
+        <TableCell colSpan={colSpanSize} className="h-24 text-center">No results.</TableCell>
+      </TableRow>);
+    }
+    else {
+      return displayTasks.map(task => (
+            <Task key={task["id"]}
+                  taskId={task["id"]}
+                  taskName={task["id"]}
+                  taskTag={task["label"]}
+                  taskTitle={task["title"]}
+                  taskStatus={task["status"]}
+                  taskPriority={task["priority"]}
+                  selectTask={() => this.getSelectedTask(task["id"])}
+                  showTitleCol={showTitleCol}
+                  showStatusCol={showStatusCol}
+                  showPriorityCol={showPriorityCol}
+                  isCheckboxSelected={selectedTasks.includes(task['id'])}
+                  labels={labels}
+            />
+        )
       )
-    });
+    }
   }
 
   onChangeSearchInput = event => {
@@ -164,8 +175,10 @@ class App extends Component {
   selectAllTasksInCurrentPage = () => {
     const {isAllSelected, currentTasks, selectedTasks} = this.state;
     const currentTaskIds = currentTasks.map(task => task.id);
+    const newTaskIdsSet =  new Set([...selectedTasks, ...currentTaskIds])
+    const newUniqueArray = Array.from(newTaskIdsSet)
     const newSelectedTasks = (isAllSelected) ? selectedTasks.filter(taskId => !currentTaskIds.includes(taskId)) :
-      [...selectedTasks, ...currentTaskIds];
+        newUniqueArray;
     this.setState({isAllSelected: !isAllSelected, selectedTasks: newSelectedTasks});
   };
 
@@ -229,8 +242,11 @@ class App extends Component {
       currentTasks,
       selectedTasks,
       currentPriorities,
-      currentStatuses
+      currentStatuses,
+      searchInput
     } = this.state
+
+
     const currentTaskIds = currentTasks.map(task => task.id);
     const selectedTasksIds = currentTaskIds.every(id => selectedTasks.includes(id));
 
@@ -239,6 +255,7 @@ class App extends Component {
         <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <Header
           searchText={this.onChangeSearchInput}
+          searchTextValue={searchInput}
           showItemOneStatus={showTitleCol} setItemOneStatusFunc={this.showTitleColFunc}
           showItemTwoStatus={showStatusCol} setItemTwoStatusFunc={this.showStatusColFunc}
           showItemThreeStatus={showPriorityCol} setItemThreeStatusFunc={this.showPriorityColFunc}
