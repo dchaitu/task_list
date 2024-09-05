@@ -2,7 +2,7 @@ import { Checkbox } from "../ui/checkbox"
 
 const CheckboxComponent = (props) => {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex space-x-2 items-center w-[100px]">
       <Checkbox id={props.text}
       onCheckedChange={props.onCheckedChange}
         checked={props.checked}

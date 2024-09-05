@@ -16,7 +16,7 @@ import {getPriorityValue, getStatusValue} from "../../constants/constantFunction
 const Header = (props) => {
 
 
-    const {searchText} = props;
+    const {searchText,searchTextValue} = props;
     const filterIcon = <MixerHorizontalIcon className="inline-block mr-2 h-4 w-4"/>
 
     const dropDownSearchBarIcon = <PlusCircledIcon className="mr-2 h-4 w-4"/>
@@ -72,7 +72,7 @@ const Header = (props) => {
                         (
                             props.currentStatuses.map((item) => <Badge
                                     variant="secondary"
-                                    className="rounded-sm px-1 space-x-1 lg:flex"
+                                    className="rounded-sm px-1 font-normal space-x-1 lg:flex"
                                     key={getStatusValue(item).value}
                                 >{getStatusValue(item).label}</Badge>
                             )
@@ -97,10 +97,10 @@ const Header = (props) => {
             </div>
 
             <div className="flex justify-between items-center">
-                <div className="flex flex-1 items-center space-x-2">
-                    <Input className="h-8 w-[150px] lg:w-[250px]" onChange={searchText} type="text"
+                <div className="flex flex-row items-center space-x-2">
+                    <Input className="h-8 w-[150px] lg:w-[250px]" onChange={searchText} value={searchTextValue}
+                           type="text"
                            placeholder="Filter Tasks..."/>
-                    <div className="flex flex-row">
                         <DropDownWithSearchBar
                             key="status"
                             selectedOption={props.selectedStatusOption}
@@ -127,28 +127,25 @@ const Header = (props) => {
                             clearFilter={props.clearPriorityFilter}
                         />
 
-                        {(props.currentPriorities.length > 0 || props.currentStatuses.length > 0) &&
-                            <Button variant="ghost" onClick={props.reset}>
-                                Reset<Cross2Icon className="ml-2 h-4 w-4"/>
+                        {(props.currentPriorities.length > 0 || props.currentStatuses.length > 0 || searchTextValue.length > 0) &&
+                            <Button variant="ghost" onClick={props.reset} className="px-2 h-8">
+                                Reset<Cross2Icon className="ml-2 h-4 w-3"/>
                             </Button>}
+                </div>
 
+                    <div>
+                        <ViewDetails
+                            iconFilter={filterIcon}
+                            text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
+                            showItemOneStatus={props.showItemOneStatus}
+                            setItemOneStatusFunc={props.setItemOneStatusFunc}
+                            showItemTwoStatus={props.showItemTwoStatus}
+                            setItemTwoStatusFunc={props.setItemTwoStatusFunc}
+                            showItemThreeStatus={props.showItemThreeStatus}
+                            setItemThreeStatusFunc={props.setItemThreeStatusFunc}
+                        />
                     </div>
-
                 </div>
-                <div className="flex justify-self-center items-center">
-                    <ViewDetails
-                        iconFilter={filterIcon}
-                        text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
-                        showItemOneStatus={props.showItemOneStatus}
-                        setItemOneStatusFunc={props.setItemOneStatusFunc}
-                        showItemTwoStatus={props.showItemTwoStatus}
-                        setItemTwoStatusFunc={props.setItemTwoStatusFunc}
-                        showItemThreeStatus={props.showItemThreeStatus}
-                        setItemThreeStatusFunc={props.setItemThreeStatusFunc}
-                    />
-                </div>
-            </div>
-
         </>
     )
 }

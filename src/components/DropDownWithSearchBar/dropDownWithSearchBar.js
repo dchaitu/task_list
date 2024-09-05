@@ -60,12 +60,15 @@ const DropDownWithSearchBar = (props) => {
                   </CommandItem>
                 </div>
               ))}
-              <CommandSeparator/>
-              <CommandItem className="flex flex-row justify-center"
-                           onSelect={props.clearFilter}
-              >
-                Clear Filters
-              </CommandItem>
+              {props.currentProperties.length>0 && (
+                  <>
+                <CommandSeparator/>
+                <CommandItem className="flex flex-row justify-center"
+                onSelect={props.clearFilter}>
+              Clear Filters
+            </CommandItem>
+              </>
+              )}
             </CommandGroup>
           </CommandList>
         </Command>
