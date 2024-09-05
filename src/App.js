@@ -21,11 +21,9 @@ class App extends Component {
     showPriorityCol: true,
     currentPage: 1,
     recordsPerPage: 10,
-    selectedTasks: [],
-    isAllSelected: false,
     currentPriorities: [],
     currentStatuses: [],
-    displayTasks: []
+    selectedTasksPerPage: {}
   }
 
 
@@ -95,13 +93,17 @@ class App extends Component {
 
 
   renderPagination = () => {
-    const {currentPage, recordsPerPage, currentTasks, selectedTasks} = this.state
+    const {currentPage, recordsPerPage, currentTasks, selectedTasksPerPage} = this.state
+    console.log("selectedTasksPerPage ", selectedTasksPerPage)
+    const allSelectedTasks = Object.values(selectedTasksPerPage).flat();
+    console.log(allSelectedTasks)
+
     return (
       <Paginate
         currentPage={currentPage}
         recordsPerPage={recordsPerPage}
         currentTasks={currentTasks}
-        selectedTasks={selectedTasks}
+        selectedTasks={allSelectedTasks}
         updateNoofRows={(row) => this.updateNoOfRows(row)}
         startingPage={this.startingPage}
         prevPage={this.prevPage}
@@ -119,7 +121,7 @@ class App extends Component {
   }
 
   getTasks = () => {
-    const {showTitleCol, showStatusCol, showPriorityCol,  selectedTasks} = this.state
+    const {showTitleCol, showStatusCol, showPriorityCol, selectedTasksPerPage, currentPage} = this.state
     const displayTasks = this.getCurrentPageTasks()
     let colSpanSize = 3
     colSpanSize += showTitleCol ? 1 : 0;
@@ -146,7 +148,7 @@ class App extends Component {
                   showTitleCol={showTitleCol}
                   showStatusCol={showStatusCol}
                   showPriorityCol={showPriorityCol}
-                  isCheckboxSelected={selectedTasks.includes(task['id'])}
+                  isCheckboxSelected={selectedTasksPerPage[currentPage]?.includes(task['id'])}
                   labels={labels}
             />
         )
@@ -161,26 +163,55 @@ class App extends Component {
   }
 
   getSelectedTask = (taskId) => {
-    const {selectedTasks} = this.state
-    const isSelected = selectedTasks.includes(taskId)
-    const newSelectedTasks = isSelected ? selectedTasks.filter(id => id !== taskId) : [...selectedTasks, taskId];
+    const { currentPage, selectedTasksPerPage } = this.state;
+    const isSelected = selectedTasksPerPage[currentPage]?.includes(taskId);
+    const newSelectedTasksForPage = isSelected
+        ? selectedTasksPerPage[currentPage]?.filter(id => id !== taskId)
+        : [...(selectedTasksPerPage[currentPage] || []), taskId];
 
-    this.setState({
-      selectedTasks: newSelectedTasks,
-      isAllSelected: newSelectedTasks.length === tasks.length,
-    });
+    const updatedSelectedTasksPerPage = {
+        ...selectedTasksPerPage,
+        [currentPage]: newSelectedTasksForPage,
+    }
+    this.setState({selectedTasksPerPage:updatedSelectedTasksPerPage});
   };
 
 
   selectAllTasksInCurrentPage = () => {
-    const {isAllSelected, currentTasks, selectedTasks} = this.state;
-    const currentTaskIds = currentTasks.map(task => task.id);
-    const newTaskIdsSet =  new Set([...selectedTasks, ...currentTaskIds])
-    const newUniqueArray = Array.from(newTaskIdsSet)
-    const newSelectedTasks = (isAllSelected) ? selectedTasks.filter(taskId => !currentTaskIds.includes(taskId)) :
-        newUniqueArray;
-    this.setState({isAllSelected: !isAllSelected, selectedTasks: newSelectedTasks});
+    const { currentPage, selectedTasksPerPage } = this.state;
+
+    // Get tasks displayed on the current page
+    const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.id);
+
+    // Check if all tasks on the current page are selected
+    const allSelectedOnPage = currentTasksOnPage.every(
+        taskId => selectedTasksPerPage[currentPage]?.includes(taskId)
+    );
+
+    const newSelectedTasksForPage = allSelectedOnPage
+        ? selectedTasksPerPage[currentPage].filter(taskId => !currentTasksOnPage.includes(taskId)) // Unselect all tasks
+        : [...new Set([...(selectedTasksPerPage[currentPage] || []), ...currentTasksOnPage])]; // Select all tasks
+
+
+    // Update the selectedTasksPerPage state for the current page
+    this.setState({
+      selectedTasksPerPage: {
+        ...selectedTasksPerPage,
+        [currentPage]: newSelectedTasksForPage,
+      },
+    });
+
   };
+
+
+  allSelectedForCurrentPage = () => {
+    const { currentPage, selectedTasksPerPage } = this.state;
+    const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.id);
+
+    // Return true if all tasks on the current page are selected
+    return currentTasksOnPage.every(taskId => selectedTasksPerPage[currentPage]?.includes(taskId));
+  };
+
 
   showItemPriorityFunc = (priorityLevel) => {
     const {currentPriorities} = this.state;
@@ -240,15 +271,10 @@ class App extends Component {
       showStatusCol,
       showPriorityCol,
       currentTasks,
-      selectedTasks,
       currentPriorities,
       currentStatuses,
       searchInput
     } = this.state
-
-
-    const currentTaskIds = currentTasks.map(task => task.id);
-    const selectedTasksIds = currentTaskIds.every(id => selectedTasks.includes(id));
 
     return (
       <div className="overflow-hidden border shadow rounded-lg m-2 bg-background">
@@ -269,8 +295,6 @@ class App extends Component {
           options={currentStatuses}
           clearStatusFilter={this.clearStatusFilter}
           clearPriorityFilter={this.clearPriorityFilter}
-
-
         />
 
 
@@ -280,7 +304,7 @@ class App extends Component {
                 <TableRow>
                   <TableHead className="p-2">
 
-                    <CheckboxComponent id="task" checked={selectedTasksIds}
+                    <CheckboxComponent id="task" checked={this.allSelectedForCurrentPage()}
                                        onCheckedChange={this.selectAllTasksInCurrentPage}
                                        text="Task"/>
                   </TableHead>
@@ -329,5 +353,3 @@ class App extends Component {
 }
 
 export default App;
-
-

@@ -98,7 +98,8 @@ const Header = (props) => {
 
             <div className="flex justify-between items-center">
                 <div className="flex flex-row items-center space-x-2">
-                    <Input className="h-8 w-[150px] lg:w-[250px]" onChange={searchText} value={searchTextValue}
+                    <Input className="h-8 w-[150px] lg:w-[250px] focus-visible:ring-1 py-1"
+                           onChange={searchText} value={searchTextValue}
                            type="text"
                            placeholder="Filter Tasks..."/>
                         <DropDownWithSearchBar
