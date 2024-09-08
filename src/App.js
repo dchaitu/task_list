@@ -214,42 +214,51 @@ class App extends Component {
 
 
   showItemPriorityFunc = (priorityLevel) => {
-    const {currentPriorities} = this.state;
+    const {currentPriorities, currentStatuses} = this.state;
     const isPriorityIncluded = currentPriorities.includes(priorityLevel);
     const newPriorities = isPriorityIncluded
       ? currentPriorities.filter(priority => priority !== priorityLevel)
       : [...currentPriorities, priorityLevel];
 
-    const priorityTasks = newPriorities.length
-      ? tasks.filter(task => newPriorities.includes(task.priority))
-      : tasks;
+    const filteredTasks = tasks.filter(task =>
+    (newPriorities.length === 0 || newPriorities.includes(task.priority)) && // Priority filter
+    (currentStatuses.length === 0 || currentStatuses.includes(task.status))   // Status filter
+  );
 
-    this.setState({currentTasks: priorityTasks, currentPriorities: newPriorities});
+    this.setState({currentTasks: filteredTasks, currentPriorities: newPriorities});
   };
 
   showItemStatusFunc = (changeStatus) => {
-    const {currentStatuses} = this.state;
+    const {currentStatuses, currentPriorities} = this.state;
 
     const isStatusIncluded = currentStatuses.includes(changeStatus);
     const newStatuses = isStatusIncluded
       ? currentStatuses.filter(priority => priority !== changeStatus)
       : [...currentStatuses, changeStatus];
 
-    const priorityTasks = newStatuses.length
-      ? tasks.filter(task => newStatuses.includes(task.status))
-      : tasks;
-
-    this.setState({currentTasks: priorityTasks, currentStatuses: newStatuses});
+    const filteredTasks = tasks.filter(task =>
+    (newStatuses.length === 0 || newStatuses.includes(task.status)) &&     // Status filter
+    (currentPriorities.length === 0 || currentPriorities.includes(task.priority)) // Priority filter
+  );
+    this.setState({currentTasks: filteredTasks, currentStatuses: newStatuses});
   };
 
 
-  countPriorities = (priority) => (
-    tasks.filter(task => task.priority === priority).length
-  )
+  countPriorities = (priority) => {
+    const {currentStatuses} = this.state;
 
-  countStatus = (status) => (
-    tasks.filter(task => task.status === status).length
+    return (
+      tasks.filter(task => (task.priority === priority && (currentStatuses.length === 0 ||currentStatuses.includes(task.status)))).length
+    )
+  }
+
+  countStatus = (status) => {
+        const { currentPriorities} = this.state;
+
+    return (
+    tasks.filter(task => task.status === status && (currentPriorities.length===0 || currentPriorities.includes(task.priority))).length
   )
+  }
 
   hidePriorityColFunc = () => {
     this.setState({showPriorityCol: false})
