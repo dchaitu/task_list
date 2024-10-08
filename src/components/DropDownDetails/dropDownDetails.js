@@ -17,8 +17,8 @@ export function DropdownDetails() {
         <button><UserAvatar/></button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>shadcn</DropdownMenuLabel>
-        <span className="text-xs leading-none text-muted-foreground ml-2">m@example.com</span>
+        <DropdownMenuLabel>Chaitanya</DropdownMenuLabel>
+        <span className="text-xs leading-none text-muted-foreground ml-2">chaitanyadokara@gmail.com</span>
         <DropdownMenuSeparator/>
         <DropdownMenuGroup>
           <DropdownMenuItem>

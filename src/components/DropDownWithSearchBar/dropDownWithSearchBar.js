@@ -39,23 +39,23 @@ const DropDownWithSearchBar = (props) => {
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {props.allOptions.map((framework) => (
-                <div key={framework.value}>
+              {props.allOptions.map((option) => (
+                <div key={option.value}>
                   <CommandItem className="flex flex-row justify-between"
-                               key={framework.value}
-                               value={framework.value}
-                               onSelect={() => props.selectedOption(framework.value)}
+                               key={option.value}
+                               value={option.value}
+                               onSelect={() => props.selectedOption(option.value)}
                   >
                     <div className="flex flex-row justify-around">
                       <Checkbox
                         className="mr-1 h-4 w-4 opacity-100"
-                        checked={props.currentProperties.includes(framework.value)}/>
-                      <span className="mb-1 mr-1">{framework.icon}</span>
-                      <span>{framework.label}</span>
+                        checked={props.currentProperties.includes(option.value)}/>
+                      <span className="mb-1 mr-1">{option.icon}</span>
+                      <span>{option.label}</span>
                     </div>
 
                     <div>
-                      <span className="flex flex-row self-end">{props.countFunc(framework.value)}</span>
+                      <span className="flex flex-row self-end">{props.countFunc(option.value)}</span>
                     </div>
                   </CommandItem>
                 </div>

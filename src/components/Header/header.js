@@ -31,19 +31,13 @@ const Header = (props) => {
                 </Badge>
                 <div className="hidden space-x-1 lg:flex">
                     {props.currentPriorities.length > 2 ? (
-                            <Badge
-                                variant="secondary"
-                                className="rounded-sm px-1 font-normal"
-                            >
+                            <Badge variant="secondary" className="rounded-sm px-1 font-normal">
                                 {props.currentPriorities.length} selected
                             </Badge>)
                         :
-                        (
-                            props.currentPriorities.map((item) => <Badge
-                                    variant="secondary"
-                                    className="rounded-sm px-1  font-normal"
-                                    key={getPriorityValue(item).value}
-                                >{getPriorityValue(item).label}</Badge>
+                        (props.currentPriorities.map((item) => (
+                            <Badge variant="secondary" className="rounded-sm px-1  font-normal" key={getPriorityValue(item).value}
+                                >{getPriorityValue(item).label}</Badge>)
                             )
                         )
                     }
@@ -134,19 +128,17 @@ const Header = (props) => {
                             </Button>}
                 </div>
 
-                    <div>
-                        <ViewDetails
-                            iconFilter={filterIcon}
-                            text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
-                            showItemOneStatus={props.showItemOneStatus}
-                            setItemOneStatusFunc={props.setItemOneStatusFunc}
-                            showItemTwoStatus={props.showItemTwoStatus}
-                            setItemTwoStatusFunc={props.setItemTwoStatusFunc}
-                            showItemThreeStatus={props.showItemThreeStatus}
-                            setItemThreeStatusFunc={props.setItemThreeStatusFunc}
-                        />
-                    </div>
-                </div>
+                <ViewDetails
+                    iconFilter={filterIcon}
+                    text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
+                    showItemOneStatus={props.showItemOneStatus}
+                    setItemOneStatusFunc={props.setItemOneStatusFunc}
+                    showItemTwoStatus={props.showItemTwoStatus}
+                    setItemTwoStatusFunc={props.setItemTwoStatusFunc}
+                    showItemThreeStatus={props.showItemThreeStatus}
+                    setItemThreeStatusFunc={props.setItemThreeStatusFunc}
+                />
+            </div>
         </>
     )
 }
