@@ -86,7 +86,7 @@ const Header = (props) => {
                     <p className="text-muted-foreground">Here's a list of your tasks for this month!</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <DropdownDetails text="Profile"/>
+                    <DropdownDetails text="Profile" user={props.user}/>
                 </div>
             </div>
 

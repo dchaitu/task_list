@@ -10,15 +10,16 @@ import {
 } from "../ui/dropdown-menu"
 import UserAvatar from "../UserAvatar/userAvatar";
 
-export function DropdownDetails() {
+export const DropdownDetails = (props) => {
+  const {username, email} = props.user;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button><UserAvatar/></button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Chaitanya</DropdownMenuLabel>
-        <span className="text-xs leading-none text-muted-foreground ml-2">chaitanyadokara@gmail.com</span>
+        <DropdownMenuLabel>{username}</DropdownMenuLabel>
+        <span className="text-xs leading-none text-muted-foreground ml-2">{email}</span>
         <DropdownMenuSeparator/>
         <DropdownMenuGroup>
           <DropdownMenuItem>

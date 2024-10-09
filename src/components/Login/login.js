@@ -19,7 +19,7 @@ const Login = () => {
         });
 
         const data = await response.json();
-
+        localStorage.setItem('token', data.token);
         if (response.ok) {
             // Redirect to tasks page if login is successful
             navigate('/tasks');

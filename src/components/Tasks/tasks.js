@@ -27,13 +27,27 @@ class Tasks extends Component {
         currentStatuses: [],
         selectedTasksPerPage: {},
         isLoaded: false,
+        userDetails: {},
     }
 
     // get tasks data from localhost
 
     async fetchAllTasks() {
         try {
-            const resp = await fetch("http://127.0.0.1:8000/tasks/");
+
+            const token = localStorage.getItem("token");
+
+            const resp = await fetch(
+                "http://127.0.0.1:8000/tasks/",
+                {
+                    method: "GET",
+                    headers: {
+                    "Content-Type": "application/json",
+                        "Authorization": `Token ${token}`,
+                    }
+                },
+
+            );
 
             if (!resp.ok) {
                 console.log("Response Status:", resp.status);  // Log the status
@@ -50,10 +64,13 @@ class Tasks extends Component {
 
     async componentDidMount() {
         const data = await this.fetchAllTasks();  // Call the fetchAllTasks function when the component mounts
+        console.log(data);
         this.setState({
             allTasks: data.tasks,
             currentTasks: data.tasks,
-            isLoaded: true
+            isLoaded: true,
+            userDetails:data.user
+
         });
     }
 
@@ -317,7 +334,8 @@ class Tasks extends Component {
             currentPriorities,
             currentStatuses,
             searchInput,
-            isLoaded
+            isLoaded,
+            userDetails
         } = this.state
 
         if (!isLoaded) {
@@ -327,7 +345,7 @@ class Tasks extends Component {
             return (
                 <div className="overflow-hidden border shadow rounded-lg m-2 bg-background">
                     <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
-                        <Header
+                        <Header user={userDetails}
                             searchText={this.onChangeSearchInput}
                             searchTextValue={searchInput}
                             showItemOneStatus={showTitleCol} setItemOneStatusFunc={this.showTitleColFunc}
