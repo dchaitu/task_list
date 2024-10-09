@@ -19,9 +19,11 @@ const Login = () => {
         });
 
         const data = await response.json();
-        localStorage.setItem('token', data.token);
-        if (response.ok) {
+        console.log("Response Status:", data);
+        localStorage.setItem('access', data.access);
+        if (response.status === 200) {
             // Redirect to tasks page if login is successful
+            console.log("Navigated to tasks");
             navigate('/tasks');
         } else {
             setError(data.error || 'Login failed');
@@ -29,10 +31,10 @@ const Login = () => {
     };
 
     return (
-        <div className="bg-pink-400 justify-center m-4 p-10 rounded-md content-center">
-            <h1 className="font-bold heading">Login</h1>
+        <div className="bg-pink-400 justify-center m-10 p-10 rounded-md content-center h-screen">
+            <h1 className="font-bold heading text-2xl content-center">Login</h1>
             {error && <p className="error">{error}</p>}
-            <form className="registration-form" onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <div className="p-2">
                     <label className="p-1">Username</label>
                     <input className="p-2"

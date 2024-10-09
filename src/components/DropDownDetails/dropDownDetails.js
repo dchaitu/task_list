@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import UserAvatar from "../UserAvatar/userAvatar";
+import Logout from "../Logout/logout";
 
 export const DropdownDetails = (props) => {
   const {username, email} = props.user;
@@ -40,10 +41,12 @@ export const DropdownDetails = (props) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator/>
-        <DropdownMenuItem>
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Logout>
+          <DropdownMenuItem>
+            <span>Logout</span>
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Logout>
       </DropdownMenuContent>
     </DropdownMenu>
   )
