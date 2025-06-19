@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './mainPage.css';  // Import the CSS file
 
 
@@ -19,19 +19,24 @@ const MainPage = () => {
     return (
         <div className="landing-container">
             <header className="landing-header">
-                <h1>Task Manager</h1>
-                <button className="login-button" onClick={handleSignUpClick}>
+                <h1>To do List</h1>
+                
+                {/* navlink to login */}
+                <Link to="/register" className="login-button"
+                    onClick={handleSignUpClick}>
                     Sign Up
-                </button>
+                </Link>
 
-                <button className="login-button" onClick={handleLoginClick}>
+                <Link to="/login" className="login-button"
+                    onClick={handleLoginClick}>
                     Login
-                </button>
+                </Link>
+
             </header>
             <main className="landing-content">
-                <h2>Welcome to Task Manager</h2>
+                <h2>To do List</h2>
                 <p>
-                    Task Manager is your personal productivity tool that helps you keep track of all your tasks.
+                    To do List is your personal productivity tool that helps you keep track of all your tasks.
                     Whether you are managing a personal to-do list, team projects, or deadlines, this app has you
                     covered.
                 </p>
@@ -40,9 +45,6 @@ const MainPage = () => {
                     deadlines.
                     Stay on top of your workload and never miss an important task again!
                 </p>
-                <button className="get-started-button" onClick={handleLoginClick}>
-                    Get Started
-                </button>
             </main>
         </div>
     );
