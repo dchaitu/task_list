@@ -8,6 +8,16 @@ import {labels} from "../../constants/constants";
 import {DropdownMenuColumn} from "../DropdownMenuColumn/dropdownMenuColumn";
 import CheckboxComponent from "../CheckboxComponent/checkboxComponent";
 import Loader from "../Loader/loader";
+import {useNavigate} from "react-router-dom";
+import AddTaskUser from "../AddTaskUser/addTaskUser";
+
+
+function withNavigate(Component) {
+    return (props) => {
+        const navigate = useNavigate();
+        return <Component {...props} navigate={navigate} />;
+    };
+}
 
 
 class Tasks extends Component {
@@ -35,7 +45,7 @@ class Tasks extends Component {
     async fetchAllTasks() {
         try {
 
-            const token = localStorage.getItem("token");
+            const access = localStorage.getItem("access");
 
             const resp = await fetch(
                 "http://127.0.0.1:8000/tasks/",
@@ -43,7 +53,7 @@ class Tasks extends Component {
                     method: "GET",
                     headers: {
                     "Content-Type": "application/json",
-                        "Authorization": `Token ${token}`,
+                        "Authorization": `Bearer ${access}`,
                     }
                 },
 
@@ -63,15 +73,26 @@ class Tasks extends Component {
     }
 
     async componentDidMount() {
-        const data = await this.fetchAllTasks();  // Call the fetchAllTasks function when the component mounts
-        console.log(data);
-        this.setState({
-            allTasks: data.tasks,
-            currentTasks: data.tasks,
-            isLoaded: true,
-            userDetails:data.user
-
-        });
+        const token = localStorage.getItem('access');
+        console.log(token);
+        if(!token) {
+            this.props.navigate('/login');
+        }
+        if (token) {
+            if (!localStorage.getItem("access")) {
+                // Redirect to login if no token
+                this.context.navigate('/login');
+            } else {
+                // Fetch tasks if the token exists
+                const data = await this.fetchAllTasks();
+                this.setState({
+                    allTasks: data.tasks,
+                    currentTasks: data.tasks,
+                    isLoaded: true,
+                    userDetails: data.user
+                });
+            }
+        }
     }
 
 
@@ -323,6 +344,9 @@ class Tasks extends Component {
         this.setState({showStatusCol: false})
 
     }
+    addTask = () => (
+        this.props.navigate('/add')
+    )
 
 
     render() {
@@ -361,6 +385,7 @@ class Tasks extends Component {
                             options={currentStatuses}
                             clearStatusFilter={this.clearStatusFilter}
                             clearPriorityFilter={this.clearPriorityFilter}
+                            addTask={() =>this.addTask()}
                         />
 
 
@@ -419,4 +444,4 @@ class Tasks extends Component {
     }
 }
 
-export default Tasks;
+export default withNavigate(Tasks);

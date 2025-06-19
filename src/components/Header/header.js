@@ -126,6 +126,11 @@ const Header = (props) => {
                             <Button variant="ghost" onClick={props.reset} className="px-2 h-8">
                                 Reset<Cross2Icon className="ml-2 h-4 w-3"/>
                             </Button>}
+
+                    <Button variant="ghost" onClick={props.addTask} className="px-2 h-8">
+                        Add Task {dropDownSearchBarIcon}
+                    </Button>
+
                 </div>
 
                 <ViewDetails

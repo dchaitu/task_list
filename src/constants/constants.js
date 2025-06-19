@@ -82,3 +82,6 @@ export const allPriorities = [
   },
 
 ]
+
+export const sitekey = "6LesLmYrAAAAAN0cJ_roYQifdmm9fqOfoyAPrT-L";
+export const clientId = "1035856167913-ud9a4gnm5amkmt2ea3ci3gsdkpia2jk2.apps.googleusercontent.com"
