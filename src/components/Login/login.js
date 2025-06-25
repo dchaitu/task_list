@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import { jwtDecode} from 'jwt-decode';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {sitekey} from "../../constants/constants";
 import './login.css'
@@ -16,17 +15,23 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!recaptchaValue) {
+            setError('Please complete the CAPTCHA');
+            return;
+        }
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/token/', {
+            const response = await fetch('http://127.0.0.1:8000/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     username: username,
-                    password: password
+                    password: password,
+                    recaptcha_token: recaptchaValue
                 }),
             });
+            console.log("recaptcha token", recaptchaValue);
 
             const data = await response.json();
             console.log("Response:", data);
@@ -55,6 +60,7 @@ const Login = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${credentialResponse.access_token}`,
                 },
                 body: JSON.stringify({
                     access_token: credentialResponse.credential,
@@ -63,13 +69,15 @@ const Login = () => {
             });
 
             const data = await response.json();
+            console.log("Response:", response);
+            console.log("Response data:", data);
             
             if (response.ok) {
                 localStorage.setItem('access', data.access);
                 localStorage.setItem('refresh', data.refresh);
                 navigate('/tasks');
             } else {
-                setError(data.detail || 'Google login failed');
+                setError(data.error || 'Google login failed');
             }
         } catch (error) {
             console.error('Google login error:', error);
@@ -111,7 +119,10 @@ const Login = () => {
                     </div>
                     <ReCAPTCHA
                             sitekey={sitekey}
-                            onChange={(value) => setRecaptchaValue(value)}
+                            onChange={(value) => {
+                                setRecaptchaValue(value);
+                                setError('');
+                            }}
                         />
                     <button disabled={!recaptchaValue} 
                         className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
@@ -123,7 +134,8 @@ const Login = () => {
                             onSuccess={handleGoogleLogin}
                             onError={() => setError('Google login failed')}
                             useOneTap
-                            auto_select
+                            shape="circle"
+                            // auto_select
                         />
     
                     </div>
