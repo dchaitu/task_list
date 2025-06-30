@@ -9,7 +9,6 @@ import {DropdownMenuColumn} from "../DropdownMenuColumn/dropdownMenuColumn";
 import CheckboxComponent from "../CheckboxComponent/checkboxComponent";
 import Loader from "../Loader/loader";
 import {useNavigate} from "react-router-dom";
-import AddTaskUser from "../AddTaskUser/addTaskUser";
 
 
 function withNavigate(Component) {
@@ -45,7 +44,7 @@ class Tasks extends Component {
     async fetchAllTasks() {
         try {
 
-            const access = localStorage.getItem("access");
+            const access = localStorage.getItem("access_token");
 
             const resp = await fetch(
                 "http://127.0.0.1:8000/tasks/",
@@ -73,13 +72,13 @@ class Tasks extends Component {
     }
 
     async componentDidMount() {
-        const token = localStorage.getItem('access');
+        const token = localStorage.getItem('access_token');
         console.log(token);
         if(!token) {
             this.props.navigate('/login');
         }
         if (token) {
-            if (!localStorage.getItem("access")) {
+            if (!localStorage.getItem("access_token")) {
                 // Redirect to login if no token
                 this.context.navigate('/login');
             } else {

@@ -6,7 +6,7 @@ const Logout = (props) => {
 
     const handleLogout = async () => {
         try {
-            const access = localStorage.getItem("access");
+            const access = localStorage.getItem("access_token");
             if (!access) {
                 navigate("/login");
             }
@@ -22,7 +22,9 @@ const Logout = (props) => {
 
             if (response.ok ||access) {
                 // Remove the token from localStorage
-                localStorage.removeItem('access');
+                localStorage.removeItem('access_token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('refresh');
 
                 // Navigate to login page or any other page after logout
                 navigate("/login");

@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ReCAPTCHA from 'react-google-recaptcha';
 import {sitekey} from "../../constants/constants";
+
 const Register = () => {
 
     const [username, setUsername] = useState('');
@@ -12,7 +13,6 @@ const Register = () => {
     const navigate = useNavigate();
     const [recaptchaValue, setRecaptchaValue] = useState(null);
 
-    
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -21,7 +21,13 @@ const Register = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({username, email, password, password2}),
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password,
+                password2: password2,
+                recaptcha_token: recaptchaValue
+            }),
         });
 
         const data = await response.json();
@@ -34,6 +40,7 @@ const Register = () => {
             navigate('/login');
         } else {
             setError(data.error || 'Login failed');
+            console.log(error);
         }
     };
 
@@ -84,12 +91,12 @@ const Register = () => {
 
 
                     <div>
-                    <ReCAPTCHA
+                        <ReCAPTCHA
                             sitekey={sitekey}
                             onChange={(value) => setRecaptchaValue(value)}
                         />
 
-                        <button disabled={!recaptchaValue} 
+                        <button disabled={!recaptchaValue}
                                 className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
                             Register
                         </button>
