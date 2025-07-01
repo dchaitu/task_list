@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleLogin as GoogleLoginButton, useGoogleLogin } from '@react-oauth/google';
+import { FaGoogle } from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
 
 export const GoogleLogin = (props) => {
@@ -25,7 +26,7 @@ export const GoogleLogin = (props) => {
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('username', data.username);
             navigate('/tasks');
-            window.location.reload();
+            // window.location.reload();
         } catch (error) {
             console.error('Google login error:', error);
         }
@@ -36,12 +37,23 @@ export const GoogleLogin = (props) => {
         onSuccess:handleGoogleLogin,
         flow:"auth-code"
     })
-
+    // TODO: Need to remove a button in these two
     return (
-        <GoogleLoginButton
-            onSuccess={login}
-            onError={() => onError?.('Google login failed')}
-        />
+        <div>
+
+            <button onClick={() => login()}
+                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full max-w-xs">
+                <div>
+                    <FaGoogle color="red" size={20}/>
+                    Login with Google
+                </div>
+            </button>
+
+            <GoogleLoginButton
+                onSuccess={handleGoogleLogin}
+                onError={() => onError?.('Google login failed')}
+            />
+        </div>
     );
 };
 
