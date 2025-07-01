@@ -1,9 +1,8 @@
 import React from 'react';
-import { GoogleLogin as GoogleLoginButton, useGoogleLogin } from '@react-oauth/google';
-import {useNavigate} from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom";
 
-export const GoogleLogin = (props) => {
-    const {onError} = props;
+export const GoogleLoginComponent = ({ onError }) => {
     const navigate = useNavigate();
     const handleGoogleLogin = async (codeResponse) => {
         console.log(codeResponse);
@@ -20,7 +19,7 @@ export const GoogleLogin = (props) => {
             })
             const data = await response.json();
             console.log("handle googleLogIn ",data);
-            console.log("Response status:", response.status);
+            console.log("GoogleLogin Response status:", response.status);
             console.log("Response data:", data);
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('username', data.username);
@@ -28,21 +27,16 @@ export const GoogleLogin = (props) => {
             window.location.reload();
         } catch (error) {
             console.error('Google login error:', error);
+            onError?.(error.message || 'Failed to sign in with Google');
         }
-
-    }
-
-    const login = useGoogleLogin({
-        onSuccess:handleGoogleLogin,
-        flow:"auth-code"
-    })
+    };
 
     return (
-        <GoogleLoginButton
-            onSuccess={login}
+        <GoogleLogin
+            onSuccess={handleGoogleLogin}
             onError={() => onError?.('Google login failed')}
         />
     );
 };
 
-export default GoogleLogin;
+export default GoogleLoginComponent;

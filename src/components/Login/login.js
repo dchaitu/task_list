@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
-import GoogleLogin from '../GoogleLogin/googleLogin';
+import GoogleLoginComponent from '../GoogleLoginComponent/googleLoginComponent';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {clientId, sitekey} from "../../constants/constants";
 import './login.css'
@@ -55,16 +55,6 @@ const Login = () => {
         }
     };
 
-    // const handleGoogleSuccess = (data) => {
-    //     localStorage.setItem('access', data.access);
-    //     localStorage.setItem('refresh', data.refresh);
-    //     localStorage.setItem('user', JSON.stringify(data.user));
-    //     navigate('/tasks');
-    // };
-    //
-    // const handleGoogleError = (error) => {
-    //     setError(error);
-    // };
 
     const onClickCaptchaButton = (value) => {
         setRecaptchaValue(value);
@@ -73,13 +63,13 @@ const Login = () => {
 
     }
 
-    const handleLogout = () => {
-        googleLogout();
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('username');
-        navigate('/login');
-    };
+    // const handleLogout = () => {
+    //     googleLogout();
+    //     localStorage.removeItem('access_token');
+    //     localStorage.removeItem('refresh');
+    //     localStorage.removeItem('username');
+    //     navigate('/login');
+    // };
 
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -116,9 +106,11 @@ const Login = () => {
                             Login
                         </button>
                     </div>
-                    <GoogleOAuthProvider clientId={clientId}>
+
+                </form>
+                <GoogleOAuthProvider clientId={clientId}>
                     <div className="mt-4">
-                        <GoogleLogin
+                        <GoogleLoginComponent
                             useOneTap
                             shape="circle"
                             scope="profile email"
@@ -126,9 +118,8 @@ const Login = () => {
                         />
                         {error && <div className="text-red-500 mt-2">{error}</div>}
                     </div>
-                    </GoogleOAuthProvider>
-                </form>
-                <button onClick={handleLogout}>Logout</button>
+                </GoogleOAuthProvider>
+                {/*<button onClick={handleLogout}>Logout</button>*/}
             </div>
             </div>
             );

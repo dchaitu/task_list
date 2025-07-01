@@ -45,6 +45,11 @@ class Tasks extends Component {
         try {
 
             const access = localStorage.getItem("access_token");
+            if (!access) {
+                console.error("No access token found");
+                this.props.navigate('/login');
+                return;
+            }
 
             const resp = await fetch(
                 "http://127.0.0.1:8000/tasks/",
@@ -59,7 +64,9 @@ class Tasks extends Component {
             );
 
             if (!resp.ok) {
-                console.log("Response Status:", resp.status);  // Log the status
+                console.log("Tasks Response Status:", resp.status);
+                console.log("Tasks Response:", await resp.text());
+                throw new Error("Failed to fetch tasks");  // Log the status
             }
 
             const data = await resp.json();
@@ -67,6 +74,7 @@ class Tasks extends Component {
             return data;
         } catch (error) {
             console.error("Fetch error: ", error.message);
+            this.props.navigate('/login');
             throw error;
         }
     }
@@ -74,23 +82,21 @@ class Tasks extends Component {
     async componentDidMount() {
         const token = localStorage.getItem('access_token');
         console.log(token);
-        if(!token) {
+        if (!token) {
             this.props.navigate('/login');
+            return
         }
-        if (token) {
-            if (!localStorage.getItem("access_token")) {
-                // Redirect to login if no token
-                this.context.navigate('/login');
-            } else {
-                // Fetch tasks if the token exists
-                const data = await this.fetchAllTasks();
-                this.setState({
-                    allTasks: data.tasks,
-                    currentTasks: data.tasks,
-                    isLoaded: true,
-                    userDetails: data.user
-                });
-            }
+        try {
+            const data = await this.fetchAllTasks();
+            this.setState({
+                allTasks: data.tasks,
+                currentTasks: data.tasks,
+                isLoaded: true,
+                userDetails: data.user
+            });
+        } catch (error) {
+            console.log(error);
+            this.props.navigate('/login');
         }
     }
 

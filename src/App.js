@@ -14,6 +14,7 @@ const App = () => {
     const verifyToken = async () => {
         const accessToken = localStorage.getItem('access_token');
         const username = localStorage.getItem('username');
+        console.log(`verify accessToken ${accessToken}, username ${username}`);
         const response = await fetch("http://localhost:8000/token-verify/", {
             method: "POST",
             headers: {
@@ -27,6 +28,7 @@ const App = () => {
             setUserDetails({...userDetails, access_token:accessToken,username:username})
         }
         else{
+            console.log("details not present");
             setUserDetails({...userDetails, access_token:null,username:null});
         }
 
