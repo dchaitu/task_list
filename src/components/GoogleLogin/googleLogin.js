@@ -25,8 +25,15 @@ export const GoogleLogin = (props) => {
             console.log("Response data:", data);
             localStorage.setItem('access_token', data.access_token);
             localStorage.setItem('username', data.username);
-            navigate('/tasks');
-            // window.location.reload();
+            
+            // Check if username is present in the response
+            if (!data.username || data.username.trim() === '') {
+                // If no username, redirect to set username page
+                navigate('/set-username');
+            } else {
+                // If username exists, proceed to tasks
+                navigate('/tasks');
+            }
         } catch (error) {
             console.error('Google login error:', error);
         }

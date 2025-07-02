@@ -7,6 +7,7 @@ import Register from "./components/Register/register";
 import AddTaskUser from "./components/AddTaskUser/addTaskUser";
 import UserContextProvider from "./context/UserContextProvider";
 import {useEffect, useState} from "react";
+import SetUserName from "./components/SetUserName/setUserName";
 
 const App = () => {
     const [userDetails, setUserDetails] = useState([]);
@@ -49,6 +50,7 @@ const App = () => {
           <Route exact path="/register" element={<Register/>} />
           <Route exact path="/" element={<MainPage/>} />
           <Route exact path="/add" element={<AddTaskUser />} />
+          <Route exact path="/set-username" element={<SetUserName/>} />
         </Routes>
           </UserContextProvider>
       </Router>

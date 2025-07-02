@@ -73,13 +73,13 @@ const Login = () => {
 
     }
 
-    const handleLogout = () => {
-        googleLogout();
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('username');
-        navigate('/login');
-    };
+    // const handleLogout = () => {
+    //     googleLogout();
+    //     localStorage.removeItem('access_token');
+    //     localStorage.removeItem('refresh');
+    //     localStorage.removeItem('username');
+    //     navigate('/login');
+    // };
 
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -116,7 +116,8 @@ const Login = () => {
                             Login
                         </button>
                     </div>
-                    <GoogleOAuthProvider clientId={clientId}>
+                </form>
+                <GoogleOAuthProvider clientId={clientId}>
                     <div className="mt-4">
                         <GoogleLogin
                             useOneTap
@@ -126,9 +127,8 @@ const Login = () => {
                         />
                         {error && <div className="text-red-500 mt-2">{error}</div>}
                     </div>
-                    </GoogleOAuthProvider>
-                </form>
-                <button onClick={handleLogout}>Logout</button>
+                </GoogleOAuthProvider>
+                {/*<button onClick={handleLogout}>Logout</button>*/}
             </div>
             </div>
             );
