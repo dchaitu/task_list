@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoogleLogin as GoogleLoginButton, useGoogleLogin } from '@react-oauth/google';
-import { FaGoogle } from "react-icons/fa";
+import {FcGoogle} from "react-icons/fc";
 import {useNavigate} from "react-router-dom";
 
 export const GoogleLogin = (props) => {
@@ -44,22 +44,23 @@ export const GoogleLogin = (props) => {
         onSuccess:handleGoogleLogin,
         flow:"auth-code"
     })
-    // TODO: Need to remove a button in these two
     return (
-        <div>
-
-            <button onClick={() => login()}
-                    className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full max-w-xs">
-                <div>
-                    <FaGoogle color="red" size={20}/>
-                    Login with Google
+        <div className="w-full max-w-xs">
+            <div className="relative flex items-center justify-center my-4">
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                <span className="px-3 text-gray-600 dark:text-gray-300 text-sm bg-white dark:bg-gray-800">OR</span>
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            
+            <button 
+                onClick={() => login()}
+                className="flex items-center justify-center w-full px-4 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600 transition-colors"
+            >
+                <div className="relative w-5 h-5 mr-2">
+                <FcGoogle size={20}/>
                 </div>
+                Continue with Google
             </button>
-
-            <GoogleLoginButton
-                onSuccess={handleGoogleLogin}
-                onError={() => onError?.('Google login failed')}
-            />
         </div>
     );
 };
