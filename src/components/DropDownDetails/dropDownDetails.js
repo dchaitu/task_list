@@ -16,7 +16,7 @@ export const DropdownDetails = (props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button><UserAvatar/></button>
+        <button><UserAvatar user={props.user}/></button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>{username}</DropdownMenuLabel>
