@@ -127,9 +127,9 @@ const Header = (props) => {
                                 Reset<Cross2Icon className="ml-2 h-4 w-3"/>
                             </Button>}
 
-                    <Button variant="ghost" onClick={props.addTask} className="px-2 h-8">
-                        Add Task {dropDownSearchBarIcon}
-                    </Button>
+
+
+
 
                 </div>
 
@@ -143,6 +143,11 @@ const Header = (props) => {
                     showItemThreeStatus={props.showItemThreeStatus}
                     setItemThreeStatusFunc={props.setItemThreeStatusFunc}
                 />
+                <div className="flex flex-wrap items-center gap-2 md:flex-row">
+                <Button onClick={props.addTask} className="px-2 h-8">
+                    Add Task
+                </Button>
+                </div>
             </div>
         </>
     )

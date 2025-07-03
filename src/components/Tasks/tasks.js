@@ -220,13 +220,14 @@ class Tasks extends Component {
                           taskTitle={task["title"]}
                           taskStatus={task["status"]}
                           taskPriority={task["priority"]}
-                          selectTask={() => this.getSelectedTask(task["id"])}
+                          selectTask={() => this.getSelectedTask(task["task_id"])}
                           showTitleCol={showTitleCol}
                           showStatusCol={showStatusCol}
                           showPriorityCol={showPriorityCol}
-                          isCheckboxSelected={selectedTasksPerPage[currentPage]?.includes(task['id'])}
+                          isCheckboxSelected={selectedTasksPerPage[currentPage]?.includes(task['task_id'])}
                           labels={labels}
                     />
+
                 )
             )
         }
@@ -261,7 +262,7 @@ class Tasks extends Component {
         const { currentPage, selectedTasksPerPage } = this.state;
 
         // Get tasks displayed on the current page
-        const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.id);
+        const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.task_id);
 
         // Check if all tasks on the current page are selected
         const allSelectedOnPage = currentTasksOnPage.length>0&& currentTasksOnPage.every(
@@ -269,7 +270,7 @@ class Tasks extends Component {
         );
 
         const newSelectedTasksForPage = allSelectedOnPage
-            ? selectedTasksPerPage[currentPage].filter(taskId => !currentTasksOnPage.includes(taskId)) // Unselect all tasks
+            ? (selectedTasksPerPage[currentPage] || []).filter(taskId => !currentTasksOnPage.includes(taskId)) // Unselect all tasks
             : [...new Set([...(selectedTasksPerPage[currentPage] || []), ...currentTasksOnPage])]; // Select all tasks
 
 
@@ -286,7 +287,7 @@ class Tasks extends Component {
 
     allSelectedForCurrentPage = () => {
         const { currentPage, selectedTasksPerPage } = this.state;
-        const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.id);
+        const currentTasksOnPage = this.getCurrentPageTasks().map(task => task.task_id);
 
         // Return true if all tasks on the current page are selected
         return currentTasksOnPage.length>0 && currentTasksOnPage.every(taskId => selectedTasksPerPage[currentPage]?.includes(taskId));
