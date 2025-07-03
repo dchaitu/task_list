@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { googleLogout, GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import GoogleLogin from '../GoogleLogin/googleLogin';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {clientId, sitekey} from "../../constants/constants";
 import './login.css'
+import {Button} from "../ui/button";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -55,16 +56,6 @@ const Login = () => {
         }
     };
 
-    // const handleGoogleSuccess = (data) => {
-    //     localStorage.setItem('access', data.access);
-    //     localStorage.setItem('refresh', data.refresh);
-    //     localStorage.setItem('user', JSON.stringify(data.user));
-    //     navigate('/tasks');
-    // };
-    //
-    // const handleGoogleError = (error) => {
-    //     setError(error);
-    // };
 
     const onClickCaptchaButton = (value) => {
         setRecaptchaValue(value);
@@ -73,13 +64,6 @@ const Login = () => {
 
     }
 
-    // const handleLogout = () => {
-    //     googleLogout();
-    //     localStorage.removeItem('access_token');
-    //     localStorage.removeItem('refresh');
-    //     localStorage.removeItem('username');
-    //     navigate('/login');
-    // };
 
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -105,20 +89,23 @@ const Login = () => {
                                required
                         />
                     </div>
-                    <ReCAPTCHA
+                    <div className="p-2">
+                        <ReCAPTCHA
                             sitekey={sitekey}
                             onChange={(value) => onClickCaptchaButton(value)}
                         />
-                    <div className="flex justify-center my-4">
-                        <button disabled={!recaptchaValue} 
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full max-w-xs"
+                    </div>
+
+                    <div className="flex flex-wrap p-2 items-center gap-2 md:flex-row">
+                        <Button disabled={!recaptchaValue}
+                            className="text-white font-medium rounded-lg text-sm px-5 py-2.5 w-full max-w-xs"
                             type="submit">
                             Login
-                        </button>
+                        </Button>
                     </div>
                 </form>
                 <GoogleOAuthProvider clientId={clientId}>
-                    <div className="mt-4">
+                    <div className="mt-4 p-2">
                         <GoogleLogin
                             useOneTap
                             shape="circle"
@@ -128,7 +115,6 @@ const Login = () => {
                         {error && <div className="text-red-500 mt-2">{error}</div>}
                     </div>
                 </GoogleOAuthProvider>
-                {/*<button onClick={handleLogout}>Logout</button>*/}
             </div>
             </div>
             );

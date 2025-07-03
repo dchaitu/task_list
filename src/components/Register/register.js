@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ReCAPTCHA from 'react-google-recaptcha';
 import {sitekey} from "../../constants/constants";
+import {Button} from "../ui/button";
 
 const Register = () => {
 
@@ -95,18 +96,19 @@ const Register = () => {
                             sitekey={sitekey}
                             onChange={(value) => setRecaptchaValue(value)}
                         />
-
-                        <button disabled={!recaptchaValue}
-                                className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50">
+                        <div className="flex flex-wrap p-2 items-center gap-2 md:flex-row">
+                        <Button disabled={!recaptchaValue}
+                                className="w-full py-2 px-4">
                             Register
-                        </button>
+                        </Button>
+                        </div>
                     </div>
                 </form>
 
 
                 <p className="mt-4 text-center text-sm text-gray-600">
                     Already have an account?
-                    <a href="/login/" className="text-indigo-600 hover:text-indigo-500 font-semibold">Login</a>
+                    <a href="/login/" className="text-indigo-600 hover:text-indigo-500 font-semibold"> Login</a>
                 </p>
             </div>
         </div>

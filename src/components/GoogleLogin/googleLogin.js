@@ -1,10 +1,10 @@
 import React from 'react';
-import { GoogleLogin as GoogleLoginButton, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import {FcGoogle} from "react-icons/fc";
 import {useNavigate} from "react-router-dom";
+import {Separator} from "../ui/separator";
 
-export const GoogleLogin = (props) => {
-    const {onError} = props;
+export const GoogleLogin = () => {
     const navigate = useNavigate();
     const handleGoogleLogin = async (codeResponse) => {
         console.log(codeResponse);
@@ -47,9 +47,7 @@ export const GoogleLogin = (props) => {
     return (
         <div className="w-full max-w-xs">
             <div className="relative flex items-center justify-center my-4">
-                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
-                <span className="px-3 text-gray-600 dark:text-gray-300 text-sm bg-white dark:bg-gray-800">OR</span>
-                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
+                <Separator className="w-10 border-t m-3"/>or<Separator className="w-10 m-3"/>
             </div>
             
             <button 

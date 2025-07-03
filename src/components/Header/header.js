@@ -13,29 +13,46 @@ import ViewDetails from "../ViewDetails/viewDetails";
 import {getPriorityValue, getStatusValue} from "../../constants/constantFunctions";
 
 
-const Header = (props) => {
-
-
-    const {searchText,searchTextValue} = props;
+const Header = ({
+  user,
+  searchText,
+  searchTextValue,
+  currentPriorities = [],
+  currentStatuses = [],
+  reset,
+  selectedOption,
+  selectedStatusOption,
+  countStatusFunc,
+  countPriorityFunc,
+  showItemOneStatus,
+  setItemOneStatusFunc,
+  showItemTwoStatus,
+  setItemTwoStatusFunc,
+  showItemThreeStatus,
+  setItemThreeStatusFunc,
+  addTask,
+  clearStatusFilter,
+  clearPriorityFilter
+}) => {
     const filterIcon = <MixerHorizontalIcon className="inline-block mr-2 h-4 w-4"/>
 
     const dropDownSearchBarIcon = <PlusCircledIcon className="mr-2 h-4 w-4"/>
 
     const showPriorities = () => (
-        props.currentPriorities.length > 0 && (
+        currentPriorities.length > 0 && (
             <>
                 <Separator orientation="vertical" className="mx-2 h-4"/>
                 <Badge variant="secondary"
                        className="rounded-sm px-1 font-normal lg:hidden">
-                    {props.currentPriorities.length}
+                    {currentPriorities.length}
                 </Badge>
                 <div className="hidden space-x-1 lg:flex">
-                    {props.currentPriorities.length > 2 ? (
+                    {currentPriorities.length > 2 ? (
                             <Badge variant="secondary" className="rounded-sm px-1 font-normal">
-                                {props.currentPriorities.length} selected
+                                {currentPriorities.length} selected
                             </Badge>)
                         :
-                        (props.currentPriorities.map((item) => (
+                        (currentPriorities.map((item) => (
                             <Badge variant="secondary" className="rounded-sm px-1  font-normal" key={getPriorityValue(item).value}
                                 >{getPriorityValue(item).label}</Badge>)
                             )
@@ -47,24 +64,24 @@ const Header = (props) => {
     )
 
     const showStatuses = () => (
-        props.currentStatuses.length > 0 && (
+        currentStatuses.length > 0 && (
             <>
                 <Separator orientation="vertical" className="mx-2 h-4"/>
                 <Badge variant="secondary"
                        className="rounded-sm px-1 font-normal lg:hidden">
-                    {props.currentStatuses.length}
+                    {currentStatuses.length}
                 </Badge>
                 <div className="hidden space-x-1 lg:flex">
-                    {props.currentStatuses.length > 2 ? (
+                    {currentStatuses.length > 2 ? (
                             <Badge
                                 variant="secondary"
                                 className="rounded-sm px-1 font-normal"
                             >
-                                {props.currentStatuses.length} selected
+                                {currentStatuses.length} selected
                             </Badge>)
                         :
                         (
-                            props.currentStatuses.map((item) => <Badge
+                            currentStatuses.map((item) => <Badge
                                     variant="secondary"
                                     className="rounded-sm px-1 font-normal space-x-1 lg:flex"
                                     key={getStatusValue(item).value}
@@ -82,11 +99,11 @@ const Header = (props) => {
 
             <div className="flex items-center justify-between space-y-2">
                 <div>
-                    <h2 className="text-2xl font-bold tracking-tight">Welcome back {props.user.username}!</h2>
+                    <h2 className="text-2xl font-bold tracking-tight">Welcome back {user.username}!</h2>
                     <p className="text-muted-foreground">Here's a list of your tasks for this month!</p>
                 </div>
                 <div className="flex items-center space-x-2">
-                    <DropdownDetails text="Profile" user={props.user}/>
+                    <DropdownDetails text="Profile" user={user}/>
                 </div>
             </div>
 
@@ -98,32 +115,32 @@ const Header = (props) => {
                            placeholder="Filter Tasks..."/>
                         <DropDownWithSearchBar
                             key="status"
-                            selectedOption={props.selectedStatusOption}
+                            selectedOption={selectedStatusOption}
                             allOptions={allStatuses}
                             propertyName="Status"
                             placeholder="Status"
-                            countFunc={props.countStatusFunc}
-                            currentProperties={props.currentStatuses}
+                            countFunc={countStatusFunc}
+                            currentProperties={currentStatuses}
                             option={showStatuses()}
                             icon={dropDownSearchBarIcon}
-                            clearFilter={props.clearStatusFilter}
+                            clearFilter={clearStatusFilter}
                         />
 
                         <DropDownWithSearchBar
                             key="priority"
-                            selectedOption={props.selectedOption}
+                            selectedOption={selectedOption}
                             allOptions={allPriorities}
                             propertyName="Priority"
                             placeholder="Priority"
-                            countFunc={props.countPriorityFunc}
-                            currentProperties={props.currentPriorities}
+                            countFunc={countPriorityFunc}
+                            currentProperties={currentPriorities}
                             option={showPriorities()}
                             icon={dropDownSearchBarIcon}
-                            clearFilter={props.clearPriorityFilter}
+                            clearFilter={clearPriorityFilter}
                         />
 
-                        {(props.currentPriorities.length > 0 || props.currentStatuses.length > 0 || searchTextValue.length > 0) &&
-                            <Button variant="ghost" onClick={props.reset} className="px-2 h-8">
+                        {(currentPriorities.length > 0 || currentStatuses.length > 0 || searchTextValue.length > 0) &&
+                            <Button variant="ghost" onClick={reset} className="px-2 h-8">
                                 Reset<Cross2Icon className="ml-2 h-4 w-3"/>
                             </Button>}
 
@@ -136,15 +153,15 @@ const Header = (props) => {
                 <ViewDetails
                     iconFilter={filterIcon}
                     text="View" itemOne="Title" itemTwo="Status" itemThree="Priority"
-                    showItemOneStatus={props.showItemOneStatus}
-                    setItemOneStatusFunc={props.setItemOneStatusFunc}
-                    showItemTwoStatus={props.showItemTwoStatus}
-                    setItemTwoStatusFunc={props.setItemTwoStatusFunc}
-                    showItemThreeStatus={props.showItemThreeStatus}
-                    setItemThreeStatusFunc={props.setItemThreeStatusFunc}
+                    showItemOneStatus={showItemOneStatus}
+                    setItemOneStatusFunc={setItemOneStatusFunc}
+                    showItemTwoStatus={showItemTwoStatus}
+                    setItemTwoStatusFunc={setItemTwoStatusFunc}
+                    showItemThreeStatus={showItemThreeStatus}
+                    setItemThreeStatusFunc={setItemThreeStatusFunc}
                 />
                 <div className="flex flex-wrap items-center gap-2 md:flex-row">
-                <Button onClick={props.addTask} className="px-2 h-8">
+                <Button onClick={addTask} className="px-2 h-8 mx-2">
                     Add Task
                 </Button>
                 </div>

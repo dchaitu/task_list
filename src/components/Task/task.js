@@ -4,7 +4,6 @@ import {TableCell, TableRow} from "../ui/table";
 import {Badge} from "../ui/badge";
 import {getPriorityValue, getStatusValue, getTagValue} from "../../constants/constantFunctions";
 import TaskOptions from "../TaskOptions/taskOptions";
-import {Separator} from "../ui/separator";
 
 
 
@@ -42,7 +41,6 @@ const Task = props => {
             {showStatusCol && <TableCell className="p-2 px-4 min-w-[120px]">{getStatusValue(taskStatus)?.icon} {getStatusValue(taskStatus)?.label}</TableCell>}
             {showPriorityCol && <TableCell className="p-2 px-4 min-w-[120px]">{getPriorityValue(taskPriority)?.icon} {getPriorityValue(taskPriority)?.label}</TableCell>}
             <TaskOptions taskTag={taskTag}/>
-            <Separator className="my-5"/>
         </TableRow>
     );
 };
