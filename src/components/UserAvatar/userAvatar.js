@@ -1,7 +1,6 @@
 
 import {
   Avatar,
-  AvatarFallback,
   AvatarImage,
 } from "../ui/avatar"
 
@@ -21,7 +20,7 @@ const UserAvatar = ({ user }) => {
 
   return (
       <Avatar>
-        {userImage ? (
+        {userImage!==null ? (
             <AvatarImage
                 src={userImage}
                 alt={user.username || 'User'}
@@ -29,10 +28,8 @@ const UserAvatar = ({ user }) => {
                   e.currentTarget.style.display = 'none';
                 }}
             />
-        ) : null}
-        <AvatarFallback>
-          {user?.username ? getInitials(user.username) : 'U'}
-        </AvatarFallback>
+        ) : getInitials(user.username)}
+        
       </Avatar>
   );
 }

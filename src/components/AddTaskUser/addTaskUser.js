@@ -56,7 +56,7 @@ const AddTaskUser = () => {
                             <option value="" disabled selected>Select your option</option>
 
                             {allStatuses.map(status =>
-                                (<option value={status.value}>{status.label}</option>)
+                                (<option key={status.value} value={status.value}>{status.label}</option>)
                             )}
 
                         </select>
@@ -64,13 +64,13 @@ const AddTaskUser = () => {
                     <div>
                     <label htmlFor="priority"
                                className="block text-sm font-medium text-gray-700">Priority</label>
-                        <select onChange={(e) => setPriority(e.target.value)}
+                        <select selected={priority} onChange={(e) => setPriority(e.target.value)}
                                 className="mt-1 block w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none"
                         >
                             <option value="" disabled selected>Select your option</option>
 
                             {allPriorities.map(priority =>
-                                (<option value={priority.value}>{priority.label}</option>)
+                                (<option key={priority.value} value={priority.value}>{priority.label}</option>)
                             )}
                         </select>
 
